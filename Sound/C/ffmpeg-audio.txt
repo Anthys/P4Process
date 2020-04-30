@@ -1,0 +1,55 @@
+ffmpeg version git-2020-03-12-675bb1f Copyright (c) 2000-2020 the FFmpeg developers
+  built with gcc 9.2.1 (GCC) 20200122
+  configuration: --enable-gpl --enable-version3 --enable-sdl2 --enable-fontconfig --enable-gnutls --enable-iconv --enable-libass --enable-libdav1d --enable-libbluray --enable-libfreetype --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libopenjpeg --enable-libopus --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libtheora --enable-libtwolame --enable-libvpx --enable-libwavpack --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxml2 --enable-libzimg --enable-lzma --enable-zlib --enable-gmp --enable-libvidstab --enable-libvorbis --enable-libvo-amrwbenc --enable-libmysofa --enable-libspeex --enable-libxvid --enable-libaom --enable-libmfx --enable-ffnvcodec --enable-cuda-llvm --enable-cuvid --enable-d3d11va --enable-nvenc --enable-nvdec --enable-dxva2 --enable-avisynth --enable-libopenmpt --enable-amf
+  libavutil      56. 42.100 / 56. 42.100
+  libavcodec     58. 75.100 / 58. 75.100
+  libavformat    58. 41.100 / 58. 41.100
+  libavdevice    58.  9.103 / 58.  9.103
+  libavfilter     7. 77.100 /  7. 77.100
+  libswscale      5.  6.101 /  5.  6.101
+  libswresample   3.  6.100 /  3.  6.100
+  libpostproc    55.  6.100 / 55.  6.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\Users\julba\Documents\Processing\Projects\Sound\C\processing-movie.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf58.41.100
+    comment         : Made with Video Export for Processing - https://git.io/vAXLk
+  Duration: 00:00:20.77, start: 0.000000, bitrate: 723 kb/s
+    Stream #0:0(und): Video: h264 (High) (avc1 / 0x31637661), yuv420p, 1000x1000, 719 kb/s, 30 fps, 30 tbr, 15360 tbn, 60 tbc (default)
+    Metadata:
+      handler_name    : VideoHandler
+Input #1, mp3, from 'C:\Users\julba\Documents\Processing\Projects\Sound\C\data\Allie X - Devil I Know (lyrics).mp3':
+  Metadata:
+    artist          : Allie X
+    title           : Devil I Know
+    encoder         : Lavf58.20.100
+  Duration: 00:02:52.67, start: 0.011995, bitrate: 128 kb/s
+    Stream #1:0: Audio: mp3, 44100 Hz, stereo, fltp, 128 kb/s
+    Metadata:
+      encoder         : Lavf
+    Stream #1:1: Video: mjpeg (Baseline), yuvj420p(pc, bt470bg/unknown/unknown), 320x179, 90k tbr, 90k tbn, 90k tbc (attached pic)
+    Metadata:
+      comment         : Other
+Stream mapping:
+  Stream #1:0 (mp3float) -> apad
+  apad -> Stream #0:0 (aac)
+  Stream #0:0 -> #0:1 (copy)
+Press [q] to stop, [?] for help
+Output #0, mp4, to 'C:\Users\julba\Documents\Processing\Projects\Sound\C\temp-with-audio.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    comment         : Made with Video Export for Processing - https://git.io/vAXLk
+    encoder         : Lavf58.41.100
+    Stream #0:0: Audio: aac (LC) (mp4a / 0x6134706D), 44100 Hz, stereo, fltp, 128 kb/s
+    Metadata:
+      encoder         : Lavc58.75.100 aac
+    Stream #0:1(und): Video: h264 (High) (avc1 / 0x31637661), yuv420p, 1000x1000, q=2-31, 719 kb/s, 30 fps, 30 tbr, 15360 tbn, 15360 tbc (default)
+    Metadata:
+      handler_name    : VideoHandler
+frame=  623 fps=0.0 q=-1.0 Lsize=    2173kB time=00:00:20.71 bitrate= 859.6kbits/s speed=88.4x    
+video:1825kB audio:325kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 1.086020%
+[aac @ 0000015544dbcbc0] Qavg: 828.564
