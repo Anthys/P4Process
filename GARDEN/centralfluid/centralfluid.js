@@ -12,6 +12,9 @@ const state = {
     }; 
 
 
+var fps = 60;
+//var capturer = new CCapture({format: 'png',framerate: fps});
+
 const GRAVITY = [0,50];  
 const GGG = 50;
 const GRID_CELLS = 54;
@@ -40,7 +43,7 @@ class SpatialHashMap {
   }
 
   add(x, y, data) {
-    print(x);
+    //print(x);
     x = clamp(Math.round(x), 0, this.width - 1);
     y = clamp(Math.round(y), 0, this.height - 1);
     //print("---");
@@ -91,6 +94,7 @@ class SpatialHashMap {
 var hashMap = new SpatialHashMap(GRID_CELLS,GRID_CELLS);
     
 function setup(){
+  //print(capturer);
   createCanvas(500,500);
   for (let i = 0; i < state.x.length; i++){
     let a = random(0,100);
@@ -102,13 +106,19 @@ function setup(){
 };
 };
 
-const applyGlobalForces = (i, dt) => {
-    const force = GRAVITY;
-    state.vx[i] += force[0] * dt;
-    state.vy[i] += force[1] * dt;
+const applyGlobalForces2 = (i, dt) => {
+    const particle = createVector(state.x[i], state.y[i]);
+    const distance = particle.sub(createVector(mouseX-width/2, mouseY-height/2));
+    const mouse_radius = 80;
+    if (distance.mag() < mouse_radius){
+    const dir = distance.normalize();
+    const force = dir.mult(100);
+    state.vx[i] += force.x* dt;
+    state.vy[i] += force.y * dt;
+    }
 }; 
 
-const applyGlobalForces2 = (i, dt) => {
+const applyGlobalForces = (i, dt) => {
     const particle = createVector(state.x[i], state.y[i]);
     const dir = particle.mult(-1).normalize();
     const force = dir.mult(100);
@@ -167,6 +177,21 @@ const calculateVelocity = (i, dt) => {
 
     state.vx[i] = v.x;
     state.vy[i] = v.y;
+
+};
+
+const contain2 = (i, dt) => {
+
+    const particle = createVector(state.x[i], state.y[i]);
+    const mousevec = createVector(mouseX-width/2, mouseY-height/2);
+    const distance = particle.sub(mousevec);
+    const mouse_radius = 50;
+    if (distance.mag() < mouse_radius){
+      const dir = distance.normalize();
+      const newPos = mousevec.add(dir.mult(mouse_radius));
+      state.x[i] = newPos.x;
+      state.y[i] = newPos.y;
+    }
 
 };
 
@@ -241,6 +266,7 @@ function draw() {
     state.oldX[i] = state.x[i];
     state.oldY[i] = state.y[i];
     applyGlobalForces(i, dt);
+    //applyGlobalForces2(i, dt);
 
     // Update positions
     state.x[i] += state.vx[i] * dt;
@@ -270,6 +296,7 @@ function draw() {
   
       // Constrain the particles to a container
       contain(i, dt);
+      contain2(i, dt);
   
       // Calculate new velocitiesr
       calculateVelocity(i, dt);
@@ -286,5 +313,6 @@ function draw() {
   //print("kk");
   //print(state.x[0]);
   hashMap.clear();
+  //saveFrames("output/gol_####.png");
 
 }
