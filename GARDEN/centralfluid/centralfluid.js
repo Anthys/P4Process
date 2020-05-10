@@ -13,7 +13,7 @@ const state = {
 
 
 var fps = 60;
-//var capturer = new CCapture({format: 'png',framerate: fps});
+var capturer = new CCapture({format: 'png',framerate: fps});
 
 const GRAVITY = [0,50];  
 const GGG = 50;
@@ -25,6 +25,7 @@ const RADIUS_BLOB_SQ = RADIUS_BLOB*RADIUS_BLOB;
 const STIFFNESS = 10;
 const STIFFNESS_NEAR = 5;
 const REST_DENSITY = 10;
+const video = false;
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
@@ -103,8 +104,9 @@ function setup(){
     state.y[i] = b;
     state.oldX[i] = a;
     state.oldY[i] = b;
-};
-};
+  }
+  frameRate(fps);
+}
 
 const applyGlobalForces2 = (i, dt) => {
     const particle = createVector(state.x[i], state.y[i]);
@@ -125,6 +127,12 @@ const applyGlobalForces = (i, dt) => {
     state.vx[i] += force.x* dt;
     state.vy[i] += force.y * dt;
 }; 
+
+const applyGlobalForces3 = (i, dt) => {
+    const force = GRAVITY;
+    state.vx[i] += force[0] * dt;
+    state.vy[i] += force[1] * dt;
+};
 
 
 const dt = 0.04 ;
@@ -257,7 +265,26 @@ const relax = (i, neighbours, dt) => {
 
 };
 
+var startMillis;
+
+
 function draw() {
+  if (startMillis == null){
+    
+    if (video){capturer.start()};
+    startMillis = millis();
+  };
+  print(1);
+  
+  var duration = 3000;
+  
+  var elapsed = millis() - startMillis;
+  var t = map(elapsed, 0, duration, 0, 1);
+  if (t>1){
+    
+  }
+  
+  
   background(200);
   
   for (let i = 0; i < PARTICLE_COUNT; i++) {
@@ -265,8 +292,8 @@ function draw() {
     // Update old position
     state.oldX[i] = state.x[i];
     state.oldY[i] = state.y[i];
-    applyGlobalForces(i, dt);
-    //applyGlobalForces2(i, dt);
+    //applyGlobalForces(i, dt);
+    applyGlobalForces3(i, dt);
 
     // Update positions
     state.x[i] += state.vx[i] * dt;
@@ -314,5 +341,16 @@ function draw() {
   //print(state.x[0]);
   hashMap.clear();
   //saveFrames("output/gol_####.png");
+  //console.log("capturing frame");
+  if (video){capturer.capture(document.getElementById("defaultCanvas0"));};
+}
 
+function keyPressed() {
+  if (keyCode === 32 && video) {
+    noLoop();
+    console.log("finished_recording");
+    capturer.stop();
+    capturer.save();
+    return;
+  }
 }
