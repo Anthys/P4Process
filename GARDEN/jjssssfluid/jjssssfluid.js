@@ -1,4 +1,4 @@
-const PARTICLE_COUNT= 200;
+const PARTICLE_COUNT= 300;
 const state = {
     x: new Float32Array(PARTICLE_COUNT), // x location
     y: new Float32Array(PARTICLE_COUNT), // y location
@@ -14,12 +14,12 @@ const state = {
 
 const GRAVITY = [0,50];  
 const GRID_CELLS = 54;
-const INTERACTION_RADIUS = 40;
+const INTERACTION_RADIUS = 30;
 const INTERACTION_RADIUS_SQ = INTERACTION_RADIUS*(INTERACTION_RADIUS);
 const RADIUS_BLOB = 100;
 const RADIUS_BLOB_SQ = RADIUS_BLOB*RADIUS_BLOB;
 const STIFFNESS = 10;
-const STIFFNESS_NEAR = 1;
+const STIFFNESS_NEAR = 5;
 const REST_DENSITY = 10;
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
