@@ -10,6 +10,7 @@ def setup():
             c = img.pixels[i-int(n)]  #selecting a color's index accordingly with the noise value 
             pixels[i] = color(c)
     updatePixels()
+    saveFrame("out2.png")
     
             
 def warp(_x, _y, factor, n_range):

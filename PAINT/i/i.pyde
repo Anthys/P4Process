@@ -74,3 +74,4 @@ def draw():
     global t
     t += 1
     image(pool[0],0,0)
+    saveFrame("out/out-####.png")

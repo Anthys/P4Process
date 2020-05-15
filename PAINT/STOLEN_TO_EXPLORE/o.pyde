@@ -1,6 +1,6 @@
 def setup():
     global sh
-    size(481,680,P2D)
+    size(1000,1000,P2D)
     sh = loadShader("frag.glsl")#, "vert.glsl")
 
 def draw():
@@ -9,5 +9,3 @@ def draw():
     sh.set("u_time", millis() / 1000.0);
     shader(sh)
     rect(0,0,width,height);
-    
-    #saveFrame("out/out-####.png")

@@ -1,9 +1,9 @@
 add_library("peasycam")
-
+add_library("videoExport")
 def setup():
-    global cube, cam, a, truc, t, waves
+    global cube, cam, a, truc, t, waves, vid
     size(500,500,P3D)
-    cam = PeasyCam(this, 400)
+    cam = PeasyCam(this, 600)
     a = millis()
     cube = loadShape("monkey.obj")
     print(millis()-a)
@@ -11,6 +11,8 @@ def setup():
     truc = False
     t = 0.
     waves = [t]
+    vid = VideoExport(this)
+    vid.startMovie()
 
 def draw_things2():
     strokeWeight(10)
@@ -103,6 +105,8 @@ def global_lerp():
 
 def draw():
     global a, cube, ini_vec, cur_vec, t, waves
+    rotateX(-PI/6)
+    rotateY(PI/6-t/1000)
     cube = loadShape("plana.obj")
     if t == 0:
         a = (get_all_vertices("plano.obj"))
@@ -145,6 +149,7 @@ def draw():
     a = millis()
     draw_things()
     t += 1.
+    vid.saveFrame();
 
 def send_wave(n=1):
     global waves
@@ -157,4 +162,7 @@ def keyPressed():
         truc = not truc
     if keyCode == 32:
         send_wave()
+    if key == "q":
+        vid.endMovie()
+        exit()
         

@@ -29,3 +29,4 @@ def draw():
     background(200)
     axes()
     cloud()
+    saveFrame("out-####.png")

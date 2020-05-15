@@ -168,6 +168,7 @@ def between(a,b,c):
 
 def draw():
     global t, ini_vec, cur_vec
+    rotateX(-PI/6)
     background(200)
     scale(40)
     rotateX(PI)
@@ -183,6 +184,7 @@ def draw():
     for i in range(n):
         cur_vec = make_wave_turn(ini_vec, cur_vec, t+i*TWO_PI/speed/n, speed = speed, n_cycle=1, le = PI/2)
     replace_v("plana.obj", cur_vec)
+    #saveFrame("out/out-####.png")
 
 
 def keyPressed():

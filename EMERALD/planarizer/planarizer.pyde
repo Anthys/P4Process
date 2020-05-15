@@ -92,6 +92,9 @@ import shutil, copy
 
 def draw():
     global a, cube, ini_vec, cur_vec
+    rotateX(-PI/6)
+    rotateY(PI/6-float(frameCount)/1000)
+    scale(.7)
     cube = loadShape("plana.obj")
     if frameCount == 1:
         a = (get_all_vertices("plana.obj"))
@@ -121,4 +124,5 @@ def draw():
         print(millis()-a)
     a = millis()
     draw_things()
+    #saveFrame("out/out-####.png")
     

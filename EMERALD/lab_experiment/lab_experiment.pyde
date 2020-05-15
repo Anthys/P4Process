@@ -195,8 +195,10 @@ def separate(source):
 
 def draw():
     global t, ini_vec, cur_vec
+    rotateX(-PI/6)
+    rotateY(PI/6-t/1000)
     background(200)
-    scale(40)
+    scale(30)
     rotateX(PI)
     t += 1.
     if frameCount == 1:
@@ -218,6 +220,7 @@ def draw():
         for i in range(n):
             cur_vec = make_wave_turn(ini_vec, cur_vec, t+i*TWO_PI/speed/n, speed = speed, n_cycle=1, le = PI/2, rot=rot1)
     replace_v("plana.obj", cur_vec)
+    #saveFrame("out/out-####.png")
 
 
 def keyPressed():

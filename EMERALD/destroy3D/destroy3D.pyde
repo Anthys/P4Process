@@ -122,8 +122,10 @@ def make_wave_3D(inivec, vectors, t, speed=1./50, ss=3, ampli=1,n_cycle = 1, ome
 
 def draw():
     global t, ini_vec, cur_vec
+    rotateX(-PI/6)
+    rotateY(PI/6-t/1000)
     background(200)
-    scale(40)
+    scale(30)
     rotateX(PI)
     t += 1.
     if t == 1:
@@ -134,6 +136,7 @@ def draw():
     alternate_shape(plan)
     cur_vec = make_wave_3D(ini_vec, cur_vec, t, 1./10)
     replace_v("plana.obj", cur_vec)
+    saveFrame("out-####.png")
 
 
 def keyPressed():

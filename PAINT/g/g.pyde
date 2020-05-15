@@ -74,6 +74,7 @@ def draw():
     global rimage, t
     image(melt_image_better(img, 100), 0,0)
     t += 1
+    #saveFrame("out/out-####.png")
     
 def keyPressed():
     if keyCode == 32:

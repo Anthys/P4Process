@@ -75,5 +75,6 @@ def draw():
     
 def keyPressed():
     if keyCode == 32:
+        saveFrame("out/out-####.png")
         global ci
         ci = (ci+1)%len(pool)

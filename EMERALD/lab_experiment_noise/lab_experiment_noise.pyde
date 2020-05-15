@@ -210,7 +210,7 @@ def draw():
         ini_vec, cur_vec = separate("plana.obj")
     plan = loadShape("plana.obj")
     alternate_shape(plan)
-    speed = 1./100
+    speed = 1./50
     n = 3
     rot1 = PVector(0,0,PI/4)
     rot2 = PVector(0,0,-PI/4)
@@ -225,6 +225,7 @@ def draw():
         for i in range(n):
             cur_vec = make_wave_turn(ini_vec, cur_vec, t+i*TWO_PI/speed/n, speed = speed, n_cycle=1, le = PI/2, rot=rot1)
     replace_v("plana.obj", cur_vec)
+    #saveFrame("out/out-####.png")
 
 
 def keyPressed():

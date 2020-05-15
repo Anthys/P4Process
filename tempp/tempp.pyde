@@ -1,7 +1,7 @@
 add_library("videoExport")
 def setup():
     global cx,cy,videoExport,video
-    size(500, 500);
+    size(1300, 1300);
     cx = width / 2;
     cy = height / 2;
     video = True
@@ -51,7 +51,7 @@ def aaa(t,th):
                     strokeWeight(thing/k)
                     point(x, y)
          
-cur = 1
+cur = 0
 
 def draw():
     global t

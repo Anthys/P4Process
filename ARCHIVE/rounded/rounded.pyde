@@ -49,6 +49,7 @@ def rounded_shape(vertx):
     endShape()
     
 def mouseClicked():
+    saveFrame("out-####.png")
     global points
     if th == "a":
         points += [Point(mouseX-translation[0],mouseY-translation[1])]
@@ -62,3 +63,4 @@ def mouseClicked():
         a += [Point(mouseX-translation[0],mouseY-translation[1])] 
         a += points[cp[0]+1:]
         points = a
+        

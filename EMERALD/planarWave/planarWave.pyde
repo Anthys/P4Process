@@ -128,7 +128,7 @@ def make_wave_3D(inivec, vectors, t, speed=1./50, ss=3, ampli=1,n_cycle = 1, ome
 def draw():
     global t, ini_vec, cur_vec
     background(200)
-    scale(40)
+    scale(30)
     rotateX(PI)
     rotateX(-PI/2)
     t += 1.
@@ -151,6 +151,7 @@ def draw():
     speed = t/100
     alternate_shape(shapes["ppp"], y0 = 4+cos(t/50)*0.5, x0 = cos(speed)*4, z0 = sin(speed)*4, ry = speed, rx= sin(t/50)*0.5, ss = 0.7)
     #replace_v("plana.obj", ini_vec)
+    #saveFrame("out/out-####.png")
 
 def keyPressed():
     pass

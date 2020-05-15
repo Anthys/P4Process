@@ -12,3 +12,5 @@ def draw():
     image(img,0,0)
     #fill(255,0,0)
     #rect(0,0,width,height);
+    
+    saveFrame("out/out-####.png")

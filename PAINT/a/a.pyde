@@ -42,6 +42,8 @@ def draw():
     image(pool[ci], 0,0)
     
 def keyPressed():
+    if key == "s":
+        saveFrame("out.png")
     if keyCode == 32:
         global ci
         ci = (ci+1)%len(pool)

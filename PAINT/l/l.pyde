@@ -9,3 +9,5 @@ def draw():
     sh.set("u_time", millis() / 1000.0);
     shader(sh)
     rect(0,0,width,height);
+    
+    saveFrame("out/out-####.png")

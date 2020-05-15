@@ -5,10 +5,10 @@ MAX_ITER = 80
 type = "m"
 
 if type == "m":
-    RE_START = -2
-    RE_END = 1
-    IM_START = -1
-    IM_END = 1
+    RE_START = -2.1
+    RE_END = 1.3
+    IM_START = -1.9
+    IM_END = 1.9
     a,b = 1000,800
 elif type == "j":
     RE_START = -1
@@ -17,7 +17,7 @@ elif type == "j":
     IM_END = 1.2
     a,b = 900,1000
 
-size(1000,800)
+size(864,1080)
 background(212)
 
 palette = []
@@ -68,7 +68,7 @@ if True:
             # Plot the point
             stroke(a,a,a)
             point(x, y)
-
+saveFrame("out.png")
 #print(1)
 #stroke(0,0,0)
 #point(width/2, height/2)
