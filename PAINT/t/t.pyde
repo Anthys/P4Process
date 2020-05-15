@@ -1,7 +1,7 @@
 def setup():
     global sh,img
     size(481,680,P2D)
-    sh = loadShader("frag.glsl","vert.glsl")
+    sh = loadShader("frag.glsl")
     img = loadImage("alpha.jpg")
 
 def draw():

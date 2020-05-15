@@ -5,6 +5,7 @@ precision mediump int;
 
 uniform sampler2D texture;
 uniform vec2 u_resolution;
+uniform float u_time;
 
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
@@ -115,6 +116,16 @@ float snoise(vec3 v){
 
 
 void main() {
-  gl_FragColor = texture2D(texture, vertTexCoord.st) * vertColor;
+  vec4 tempo = vec4(vertTexCoord.x, vertTexCoord.y, vertTexCoord.z, vertTexCoord[3]);
+  //tempo.xy += vec2(.5,.5);
+  gl_FragColor = texture2D(texture, tempo.st) * vertColor;
+
+  float d = u_time;
+  float t = u_time;
+  vec2 temp = gl_FragCoord.xy*d/u_resolution;
+  vec2 final = vec2(0.2*(0.5+0.5*snoise(vec3(temp.x, temp.y, t))));
+  //vertTexCoord.xy += final;
+  tempo.xy += final;
+  gl_FragColor = texture2D(texture, tempo.xy) * vertColor;
   //gl_FragColor = vec4(0.5+0.5*snoise(gl_FragCoord.xy/u_resolution.xy));
 }

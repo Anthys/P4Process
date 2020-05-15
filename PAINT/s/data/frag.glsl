@@ -1,16 +1,14 @@
-uniform mat4 transform;
-uniform mat4 texMatrix;
+#ifdef GL_ES
+precision mediump float;
+precision mediump int;
+#endif
+
+uniform sampler2D texture;
 uniform vec2 u_resolution;
 uniform float u_time;
 
-
-attribute vec4 position;
-attribute vec4 color;
-attribute vec2 texCoord;
-
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
-
 
 vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
 
@@ -116,31 +114,22 @@ float snoise(vec3 v){
                                 dot(p2,x2), dot(p3,x3) ) );
 }
 
-float random (vec2 st) {
-    return fract(sin(dot(st.xy,
-                         vec2(12.9898,78.233)))*
-        43758.5453123);
-}
 
 void main() {
-  gl_Position = transform * position;
+  vec4 tempo = vec4(vertTexCoord.x, vertTexCoord.y, vertTexCoord.z, vertTexCoord[3]);
+  //tempo.xy += vec2(.5,.5);
+  gl_FragColor = texture2D(texture, tempo.st) * vertColor;
 
-  vertColor = color;
-  vertTexCoord = texMatrix * vec4(texCoord, 1.0, 1.0);
-}
-
-void main2() {
-  gl_Position = transform * position;
-
-  vertColor = color;
-  vertTexCoord = texMatrix * vec4(texCoord, 1.0, 1.0);
   float d = u_time;
   float t = 1.;
-  vec2 temp = position.xy*d/u_resolution;
-  vec2 final = vec2(0.2*(0.5+0.5*snoise(vec3(temp.x, temp.y, t))));
-  vertTexCoord.xy += final;
-  vec4 tepo = vec4(position.x, position.y, position.z, position[3]);
-  tepo.xy += final;
-  gl_Position = transform * tepo;
-  //vertTexCoord.xy = vec2(random(vec2(0,200)),random(vec2(0,200)));
+  vec2 norm = gl_FragColor.xy / u_resolution.xy;
+  vec2 norm2 = (norm -vec2(0.5,0.5))*2;
+  float theta = atan(norm.y, norm.x);
+  float temp = cos(theta)*d;
+  float a = 0.2*(0.5+0.5*snoise(vec2(temp, t)));
+  vec2 final = vec2(a,a);
+  //vertTexCoord.xy += final;
+  tempo.xy += final;
+  gl_FragColor = texture2D(texture, tempo.xy) * vertColor;
+  //gl_FragColor = vec4(0.5+0.5*snoise(gl_FragCoord.xy/u_resolution.xy));
 }
