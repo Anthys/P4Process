@@ -111,7 +111,14 @@ def make_wave_linear(inivec, vectors, t, speed=1./50, ampli=1,n_cycle = 1, le=1,
         iniv_a = protateZ(protateY(protateX(iniv, rot.x), rot.y),rot.z)
         check = iniv_a.x
         if  between(e,check, s):
-            vv.y = iniv.y+ampli*sin((-check + s)*PI/le*n_cycle)**puis
+            stroke(0,0,0,50)
+            strokeWeight(.5)
+            for j in range(50):
+                a = random(-1,1)*sin((-check + s)*PI/le*n_cycle)
+                b = random(1)*sin((-check + s)*PI/le*n_cycle)
+                c = random(-1,1)*sin((-check + s)*PI/le*n_cycle)
+                point(iniv.x+a,iniv.y+b, iniv.z+c)
+            vv.y = iniv.y+random(1)*ampli*sin((-check + s)*PI/le*n_cycle)**puis
     #replace_v("plana.obj", cur_vec)
     return cur_vec
 
@@ -203,7 +210,7 @@ def draw():
         ini_vec, cur_vec = separate("plana.obj")
     plan = loadShape("plana.obj")
     alternate_shape(plan)
-    speed = 1./20
+    speed = 1./100
     n = 3
     rot1 = PVector(0,0,PI/4)
     rot2 = PVector(0,0,-PI/4)

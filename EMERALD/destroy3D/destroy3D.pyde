@@ -126,7 +126,7 @@ def draw():
     scale(40)
     rotateX(PI)
     t += 1.
-    if frameCount == 1:
+    if t == 1:
         a = (get_all_vertices("plana.obj"))
         ini_vec = [v for i,v in a]
         cur_vec = copy.deepcopy(ini_vec)
@@ -137,4 +137,7 @@ def draw():
 
 
 def keyPressed():
-    pass
+    global t
+    if keyCode == 32:
+        t = 0.
+        shutil.copy("circo.obj", "plana.obj")
