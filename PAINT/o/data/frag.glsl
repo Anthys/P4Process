@@ -102,6 +102,5 @@ void main()
     col *= 1.2*lin;
 	col = 1.0 - col;
 	col = 1.1*col*col;
-    
     gl_FragColor = vec4( col, 1.0 );
 }
