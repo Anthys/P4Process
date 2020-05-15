@@ -1,14 +1,16 @@
-#ifdef GL_ES
-precision mediump float;
-precision mediump int;
-#endif
-
-uniform sampler2D texture;
+uniform mat4 transform;
+uniform mat4 texMatrix;
 uniform vec2 u_resolution;
 uniform float u_time;
 
+
+attribute vec4 position;
+attribute vec4 color;
+attribute vec2 texCoord;
+
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
+
 
 vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
 
@@ -113,77 +115,32 @@ float snoise(vec3 v){
   return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1), 
                                 dot(p2,x2), dot(p3,x3) ) );
 }
-vec3 hash3( vec2 p ){
-    vec3 q = vec3( dot(p,vec2(127.1,311.7)), 
-				   dot(p,vec2(269.5,183.3)), 
-				   dot(p,vec2(419.2,371.9)) );
-	return fract(sin(q)*43758.5453);
-}
 
-float iqnoise( in vec2 x, float u, float v ){
-    vec2 p = floor(x);
-    vec2 f = fract(x);
-		
-	float k = 1.0+63.0*pow(1.0-v,4.0);
-	
-	float va = 0.0;
-	float wt = 0.0;
-    for( int j=-2; j<=2; j++ )
-    for( int i=-2; i<=2; i++ )
-    {
-        vec2 g = vec2( float(i),float(j) );
-		vec3 o = hash3( p + g )*vec3(u,u,1.0);
-		vec2 r = g - f + o.xy;
-		float d = dot(r,r);
-		float ww = pow( 1.0-smoothstep(0.0,1.414,sqrt(d)), k );
-		va += o.z*ww;
-		wt += ww;
-    }
-	
-    return va/wt;
+float random (vec2 st) {
+    return fract(sin(dot(st.xy,
+                         vec2(12.9898,78.233)))*
+        43758.5453123);
 }
 
 void main() {
-  vec4 final_coord = vec4(vertTexCoord.x, vertTexCoord.y, vertTexCoord.z, vertTexCoord[3]);
-  vec4 final_col = vec4(vertColor.x, vertColor.y, vertColor.z, vertColor[3]);
-  //tempo.xy += vec2(.5,.5);
+  gl_Position = transform * position;
 
+  vertColor = color;
+  vertTexCoord = texMatrix * vec4(texCoord, 1.0, 1.0);
+}
+
+void main2() {
+  gl_Position = transform * position;
+
+  vertColor = color;
+  vertTexCoord = texMatrix * vec4(texCoord, 1.0, 1.0);
   float d = u_time;
   float t = 1.;
-  float t1 = cos(t);
-  float t2 = sin(t);
-  vec2 norm = gl_FragCoord.xy / u_resolution.xy;
-  vec2 norm2 = (norm -vec2(0.5,0.5))*2;
-  float dist = sqrt(norm2.x*norm2.x + norm2.y*norm2.y);
-  float theta = atan(norm2.y, norm2.x);
-
-  //float a = 0;
-  float speed = 4.;
-  float len = 10.;
-  float seuil = 0;
-  float ampli = 1.;
-  float pixels = 0.05;
-  float truc = ampli*cos((u_time/speed-dist)*len);
-  float a = pixels*(pow(truc, 5)-seuil);
-  if (a<0 && false){
-    a= 0.;
-  }
-  //float a = 0.2*(0.5+0.5*snoise(vec2(dist*d, t)));
-  vec2 dir = norm2/dist;
-
-  //final_coord.xy +=a*dir;
-  //final_col = vec4(a,a,a,1.);
-  vec4 final = texture2D(texture, final_coord.st) * final_col;
-  //t = u_time;
-  float thresh = 0.5;
-  d = 10;
-  float aa = step(snoise(vec3(norm.x*d,d*norm.y,t))*0.5+0.5, .5);
-  aa = iqnoise(norm.xy*d, 1, 0.1);
-  final = vec4(aa);
-  final[3] = 1.;
-
-  gl_FragColor = final;
-
-  return;
-  //gl_FragColor = vec4(0.5+0.5*snoise(gl_FragCoord.xy/u_resolution.xy));
+  vec2 temp = position.xy*d/u_resolution;
+  vec2 final = vec2(0.2*(0.5+0.5*snoise(vec3(temp.x, temp.y, t))));
+  vertTexCoord.xy += final;
+  vec4 tepo = vec4(position.x, position.y, position.z, position[3]);
+  tepo.xy += final;
+  gl_Position = transform * tepo;
+  //vertTexCoord.xy = vec2(random(vec2(0,200)),random(vec2(0,200)));
 }

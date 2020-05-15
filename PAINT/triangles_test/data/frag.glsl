@@ -143,6 +143,13 @@ float iqnoise( in vec2 x, float u, float v ){
     return va/wt;
 }
 
+const float s3 = 1.7320508075688772;
+const float i3 = 0.5773502691896258;
+//const float i3 = 0.20;
+
+const mat2 tri2cart = mat2(1.0, 0.0, -0.5, 0.5*s3);
+const mat2 cart2tri = mat2(1.0, 0.0, i3, 2.0*i3);
+
 void main() {
   vec4 final_coord = vec4(vertTexCoord.x, vertTexCoord.y, vertTexCoord.z, vertTexCoord[3]);
   vec4 final_col = vec4(vertColor.x, vertColor.y, vertColor.z, vertColor[3]);
