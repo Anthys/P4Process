@@ -1,5 +1,5 @@
 def setup():
-    size(481,680) #width and height should be similar to the picture's dimensions
+    size(1000,1000) #width and height should be similar to the picture's dimensions
     
     img = loadImage("alpha.jpg")
     loadPixels()
@@ -10,7 +10,7 @@ def setup():
             c = img.pixels[i-int(n)]  #selecting a color's index accordingly with the noise value 
             pixels[i] = color(c)
     updatePixels()
-    saveFrame("out2.png")
+    #saveFrame("out3.png")
     
             
 def warp(_x, _y, factor, n_range):
