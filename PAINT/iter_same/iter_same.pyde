@@ -2,24 +2,25 @@ def setup():
     size(481,680) #width and height should be similar to the picture's dimensions
     
     img = loadImage("alpha.jpg")
-    loadPixels()
+    res = process(img)
+    #res = process(res)
+    image(res,0.,0.)    
+
+def process(img):
+    res = createImage(img.width,img.height, RGB)
     for y in range(img.height):
         for x in range(img.width):
+            n= noise(float(x)/400,float(y)/600)
+            x = int(x+n)
+            y = int(y+n)
             i = x + y * img.width
-            n = warp(x, y, .003, 615)
-            if False:
-                x = int(float((x-n))%img.width)
-                y = int(y-floor(float(n)/img.width))
-                #print(x,y)
-                c = img.pixels[x+y*img.width]
-            else:
-                c = img.pixels[i-int(n)] #selecting a color's index accordingly with the noise value 
-                #c = color(n,n,n)
-            pixels[i] = color(c)
-    updatePixels()
-    #saveFrame("out3.png")
-    
-            
+            #n = warp(x, y, .003, 615)
+            #n = noise(x,y)*5
+            #c = img.pixels[i-int(n)] #selecting a color's index accordingly with the noise value 
+            c = img.pixels[i]
+            res.pixels[i] = color(c)
+    return res
+
 def warp(_x, _y, factor, n_range):
     n1 = noise((_x+0.0) * factor, (_y+0.0) * factor) * n_range
     n2 = noise((_x+5.2) * factor, (_y+1.3) * factor) * n_range
