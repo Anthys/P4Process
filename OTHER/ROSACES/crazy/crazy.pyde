@@ -1,7 +1,7 @@
 # FROM https://www.bit-101.com/blog/2020/04/animated-sinusoidal-cardiods/
 
 def setup():
-    size(500,500)
+    size(1000,1000)
     global t
     t = 0.
     
@@ -13,7 +13,7 @@ def draw():
         background(200)
         
         
-        radius = 200 
+        radius = 400 
         res = 1440
         slice = PI*2/res
         mul = 25

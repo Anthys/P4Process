@@ -36,6 +36,7 @@ def adjustSprings(i, neighbours, dt):
         if j > i:
             q = PVector.dist(state.pos[i], state.pos[j])
             if q < 1:
+                pass
                 
     
 def applySpringDisplacements(dt):

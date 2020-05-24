@@ -13,7 +13,7 @@ def draw():
     clear()
     translate(W/2,W/2)
     [F(i)for i in range(W)]
-    #saveFrame("frames/out-####.png")
+    saveFrame("frames/out-####.png")
     
 
 def F(i):

@@ -23,7 +23,7 @@ def draw():
     [F(i)for i in range(W)]
     #saveFrame("frames/out-####.png")
     #print(cam.getRotations())
-    #saveFrame("out-####.png")
+    saveFrame("out2-####.png")
     
 
 def F(i):

@@ -34,7 +34,8 @@ def draw():
         if p.t > 10 and p.v.mag()<.1:
             global painters
             painters = painters[:ip]+painters[ip+1:]+[painter.Painter(random(0,width),random(0,height),0,0)]
-        
+    saveFrame("out-####.png")
+    
 def keyPressed():
     if keyCode == 32:
         init()

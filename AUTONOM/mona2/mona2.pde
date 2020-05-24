@@ -64,9 +64,9 @@ PVector repulsions(HashMap<Integer, ArrayList<PVector>> hash, PVector p, float r
 float radius;
 
 void setup(){
-  size(600,900,P2D);
-  img = loadImage("mona3.jpeg");
-  int n = 100;
+  size(376,562,P2D);
+  img = loadImage("mona.jpeg");
+  int n = 3000;
   radius = 200.;
   divide = 50;
   repul = false;

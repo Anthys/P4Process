@@ -102,3 +102,4 @@ def draw():
         pass
     else:
         process_basic(operations, initial[0], initial[1],initial[2],initial[3],initial[4])
+        saveFrame("out.png")

@@ -65,7 +65,7 @@ void setup(){
   
   hashmap = new HashMap<Integer, ArrayList<PVector>>();
   particles = new PVector[n];
-  video = false;
+  video = true;
   
   for (int i=0;i<particles.length; i++){
     PVector pp = new PVector();

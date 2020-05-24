@@ -68,7 +68,7 @@ if True:
             # Plot the point
             stroke(a,a,a)
             point(x, y)
-saveFrame("out.png")
+#saveFrame("out.png")
 #print(1)
 #stroke(0,0,0)
 #point(width/2, height/2)

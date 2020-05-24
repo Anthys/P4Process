@@ -1,7 +1,7 @@
 # FROM https://www.bit-101.com/blog/2020/04/animated-sinusoidal-cardiods/
 
 def setup():
-    size(500,500)
+    size(700,700)
     global t
     t = 0.
     
@@ -28,3 +28,4 @@ def draw():
             r1 = radius + sin(a1*waves+phase)*100
             r2 = radius + sin(a2*waves+phase)*100
             line(cos(a1)*r1, sin(a1)*r1, cos(a2)*r2, sin(a2)*r2)
+    saveFrame("out-####.png")

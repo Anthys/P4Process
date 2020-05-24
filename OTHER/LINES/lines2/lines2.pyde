@@ -8,7 +8,7 @@ def setup():
     for i in range(0,width,n):
         for j in range(0,height, n):
             randomline(i-width/2,j-height/2,n)
-    
+    saveFrame("out.png")
 def draw():
     global t
     t += 1.
