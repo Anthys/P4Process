@@ -277,6 +277,7 @@ def draw():
         othervectors = separate("plana4.obj")[0]
     plan = loadShape(n_file)
     alternate_shape(plan)
+    #saveFrame("out2/out-####.png")
     return
     speed = 1./20
     n = 3
@@ -294,7 +295,6 @@ def draw():
         for i in range(n):
             cur_vec = make_wave_turn(ini_vec, cur_vec, t+i*TWO_PI/speed/n, speed = speed, n_cycle=1, le = PI/2, rot=rot1)
     replace_v("plana.obj", cur_vec)
-    #saveFrame("out/out-####.png")
 
 
 def keyPressed():

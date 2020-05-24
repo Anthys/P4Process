@@ -70,7 +70,7 @@ def draw():
         if v.s >= mx:
             elts = elts[:i]+elts[i+1:]
         pg.fill(v.c)
-        posty = height-float(height/2+100*sin(t*speed+float(v.s)/100.))
+        posty = height-float(height/2+100*sin(t*speed-float(v.s)/100.))
         pg.circle(v.x, posty, v.s)
     if len(elts) <= n-1:
         c = palette[int(counter/3)%len(palette)]
@@ -90,7 +90,7 @@ def draw():
     
     
     
-    if video:
+    if video and t > 300:
         vid.saveFrame()
 
 def hex_to_rgb(value):

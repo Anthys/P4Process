@@ -56,7 +56,7 @@ def draw():
     
     
     
-    if video:
+    if video and t > width:
         vid.saveFrame()
 
 

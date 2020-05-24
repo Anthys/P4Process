@@ -10,7 +10,7 @@ void setup(){
   img = loadImage("epsi.png");
   int n = 100;
   particles = new PVector[n];
-  video = false;
+  video = true;
   
   for (int i=0;i<particles.length; i++){
     PVector pp = new PVector();
