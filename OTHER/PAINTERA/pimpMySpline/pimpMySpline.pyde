@@ -8,8 +8,60 @@
 ## with n=fract_l circles with deceasing sizes, following a path that is
 ## given by the Bezier curves between these points.
 
- 
+from coolspline import *
+
+
 def setup():
+    size(500, 500, P2D)
+    global t, a
+    t = 0.
+    cur_example()
+    
+def cur_example():
+    example_4()
+    
+def example_1():
+    img = createGraphics(width, height)
+    
+    draw_cool_curve(img, width/2,height/2,type ="dir", l=200,n=2, col=color(255,0,0,255), debug=True)
+    image(img, 0,0)
+
+def example_2():
+    img = createGraphics(width, height)
+    n = 50
+    for i in range(n):
+        x = random(0,width)
+        y = random(0, height)
+        draw_cool_curve(img, x,y,type ="dir", l=200,n=2, col=color(255,0,0,100), debug=False)
+    image(img, 0,0)
+
+def example_3():
+    img = createGraphics(width, height)
+    n = 3000
+    radius = 200
+    for i in range(n):
+        r = random(0, radius*2)/2
+        theta = random(0, TWO_PI*2)
+        x = cos(theta)*r+width/2
+        y = sin(theta)*r + height/2
+        P = make_cool_curve(img, x,y,type ="dir", l=50,n=2)
+        plot_cool_curve(img, P, debug = False)
+    image(img, 0,0)
+    
+def example_4():
+    img = createGraphics(width, height)
+    n = 1000
+    radius = 200
+    for i in range(n):
+        r = random(0, radius*2)/2
+        theta = random(0, TWO_PI*2)
+        x = cos(theta)*r+width/2
+        y = sin(theta)*r + height/2
+        P = make_cool_curve(img, x,y,type ="dir", l=50,n=2)
+        plot_cool_curve(img, P, debug = False)
+    image(img, 0,0)
+ 
+def setup2():
     size(700,700,P2D)
     global t,sh
     t = 0.
@@ -66,6 +118,12 @@ def colpoint(x,y):
     varc = 10
     col = color(noise(uv.x*varc, varc*uv.y, 25)*255, 30,noise(uv.x*varc, varc*uv.y, 75)*255,20)
     return col 
+
+
+
+def mycoolspline(img, x, y, l = 90, n = 2, col = color(0,0,0), vars = None):
+    pass
+    
 
 def make_curve(img, x,y, l=90,n=2, col=color(0,0,0,0)):
     pos = PVector(x,y)
@@ -146,6 +204,9 @@ def draw():
 def keyPressed():
     if key == "p":
         saveFrame("out-####.png")
+    elif key == "c":
+        cur_example()
     elif keyCode == 32:
         init()
-        draw_()
+        cur_example()
+        #draw_()
