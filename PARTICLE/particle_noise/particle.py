@@ -27,7 +27,7 @@ class Particle():
         return out
         
     def update(self):
-        self.v *= .99
+        self.v *= .999
         uv = PVector(self.p.x/width+1, self.p.y/height+1)
         self.v += self.find_gradient(self.res)
         

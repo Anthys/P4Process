@@ -5,11 +5,12 @@ def setup():
     global t, particles, img
     t = 0.
     particles= []
-    n= 200
-    res = 5.
+    n= 40
+    res = 1.
     a = 1.
     for i in range(n):
-        particles.append(Particle(random(0,width), random(0,height),random(-a,a), random(-a,a), res = res))
+        particles.append(Particle(width*i/n, height/2,0, 2, res = res))
+        #particles.append(Particle(random(0,width), random(0,height),random(-a,a), random(-a,a), res = res))
     
     img = createImage(width, height, RGB)
     for i in range(img.width):
