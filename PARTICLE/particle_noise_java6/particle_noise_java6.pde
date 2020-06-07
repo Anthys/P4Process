@@ -13,12 +13,13 @@ void init(){
   background(200);
   noiseSeed(int(random(0,100)));
   t = 0.;
-  int n = 2;
-  float res= 1.5;
+  int n = 40;
+  float res= 2.;
   particles = new ArrayList<Particle>();
   for (int i=0;i<n;i++){
-    particles.add(new Particle(width*i/n,20+ height, 0, 0, res));
-    particles.add(new Particle(20+width,20+ height*i/n, 0, 0, res));
+    particles.add(new Particle(width*i/n,20, 0, 5, res));
+    //particles.add(new Particle(width*i/n,20+ height, 0, -1, res));
+    //particles.add(new Particle(20+width,20+ height*i/n, 0, -1, res));
   }
   img = createGraphics(width, height);
   img2 = createImage(width, height, RGB);
@@ -49,10 +50,7 @@ void draw(){
   img = createGraphics(width, height);
   for (Particle p:particles){
     p.draw();
-    if (frameCount%2==0){
-      ArrayList<PVector> P = make_cool_curve(p.p.x,p.p.y,150.,3,"r");
-      plot_cool_curve(img,P, false);
-    }
+    p.p.y += .6;
   }
 }
 
