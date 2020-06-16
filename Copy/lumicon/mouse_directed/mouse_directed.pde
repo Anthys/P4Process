@@ -112,8 +112,9 @@ void draw_2(){
 }
 
 void draw(){
-  A = map(mouseX, 0, width, -3, 3);
-  B = map(mouseY, 0, height, -3, 3);
+  
+  
+  segundo();
   t = float(frameCount)/10;
   if (cstep == 0){
     draw_1();
@@ -124,6 +125,7 @@ void draw(){
   if (video){
     vid.saveFrame();  
   }
+  segundo();
 }
 
 void actu_part(){
@@ -163,13 +165,41 @@ void init_part(){
   }
 }
 
-void mousePressed(){
+void segundo(){
+  if (mousePressed){
+  if (mouseButton == CENTER){ 
   println("---");
   println(A);
   println(B);
   println(C);
   println(D);
+  } else if (mouseButton == LEFT){
+    textSize(32);
+    fill(0);
+    text("C&D",100,100);
+    C=map(mouseX, 0, width, -3, 3);
+    D=map(mouseY, 0, height, -3, 3);
+  }else {
+    textSize(32);
+    fill(0);
+    A = map(mouseX, 0, width, -3, 3);
+    B = map(mouseY, 0, height, -3, 3);
+    text("A&B",100,100);
+  }
+  }
+  crox(map(A,-3,3,0,width), map(B,-3,3,0,height), 10);
+  crox(map(C,-3,3,0,width), map(D,-3,3,0,height), 10);
 
+}
+
+void crox(float x, float y, float s){
+  strokeWeight(5);
+  stroke(0);
+ line(x-s, y, x+s, y);
+ line(x, y-s, x, y+s);
+}
+
+void tertio(){
 }
 
 void keyPressed(){
@@ -187,4 +217,5 @@ void keyPressed(){
   if (key == 's'){
     saveFrame("out-####.png");
   }
+  
 }
