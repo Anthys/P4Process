@@ -1,8 +1,13 @@
+import com.hamoid.*;
+
 float x1,x2,y1,y2;
 float A,B,C,D;
 int cstate;
 
 ArrayList<Particle> particles;
+
+VideoExport vid;
+boolean video;
 
 class Particle{
   PVector pos;
@@ -22,6 +27,8 @@ void setup(){
   x2 = 2;
   y1 = -2;
   y2 = 2;
+  video = false;
+  vid = new VideoExport(this);
   
   if (sq != 0){
     x1 = y1= -sq;
@@ -29,6 +36,7 @@ void setup(){
   }
   particles = new ArrayList<Particle>();
   init();
+  if (video)vid.startMovie();
 }
 
 void draw(){
@@ -44,7 +52,7 @@ void draw(){
     //b = d = 1.;
     float x = p.pos.x;
     float y = p.pos.y;
-    float xx = (sin(a*y)-cos(b*x))*(sin(b*y) -cos(a*x));
+    float xx = (sin(a*y)-cos(b*x));
     float yy = sin(c*x)-cos(d*y);
     x = lerp(x,xx,e) ;
     y = lerp(y,yy, e);
@@ -66,6 +74,9 @@ void draw(){
   float yy = map(y, y1+2, y2-2, 0, height);
   point(xx+20,yy);
   point(xx-20,yy);*/
+  if (video){
+    vid.saveFrame();
+  }
 }
 
 
@@ -104,7 +115,7 @@ void init(){
 color find_color(float xx, float yy){
     float res = 3.;
     float vv = noise(xx*res, res*yy);
-    color c = color(vv*255, 100, 200, 10);
+    color c = color(200, 100+100*vv, 255-255*vv, 10);
     return c;
 }
 
@@ -113,5 +124,11 @@ void keyPressed(){
     //cstate = (cstate+1)%2;
     init();
 }
-  
+  if (key=='s'){
+    //cstate = (cstate+1)%2;
+    saveFrame("out-####.png");
+}if (key=='q' && video){
+    vid.endMovie();
+    exit();
+}
 }

@@ -1,5 +1,12 @@
 import com.hamoid.*;
 
+// LEFT CLICK HOLD: MOVE CONSTANTS A AND B
+// RIGHT CLICK HOLD: MOVE CONSTANTS C AND D
+// MIDDLE CLICK : PRINT COORDINATES
+
+
+
+
 float x1,x2,y1,y2;
 float A,B,C,D;
 float t;
@@ -173,18 +180,20 @@ void segundo(){
   println(B);
   println(C);
   println(D);
-  } else if (mouseButton == LEFT){
+  }
+  if (mouseButton == LEFT){
     textSize(32);
     fill(0);
-    text("C&D",100,100);
+    text("(C,D)",100,100);
     C=map(mouseX, 0, width, -3, 3);
     D=map(mouseY, 0, height, -3, 3);
-  }else {
+  }
+  if (mouseButton == RIGHT) {
     textSize(32);
     fill(0);
     A = map(mouseX, 0, width, -3, 3);
     B = map(mouseY, 0, height, -3, 3);
-    text("A&B",100,100);
+    text("(A,B)",100,100);
   }
   }
   crox(map(A,-3,3,0,width), map(B,-3,3,0,height), 10);

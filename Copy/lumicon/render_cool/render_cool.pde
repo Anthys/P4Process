@@ -12,8 +12,8 @@ ArrayList<PVector> particles;
 int[][] back;
 
 void setup(){
-  //size(1920,1080, P2D);
-  size(1000,500, P2D);
+  size(1920,1080, P2D);
+  //size(1000,500, P2D);
   cstep = 0;
   vid = new VideoExport(this);
   video = false;
@@ -53,7 +53,7 @@ void draw_1(){
   float d = D;
   float e = .01;
   
-  for (int j=0;j<500;j++){
+  for (int j=0;j<10;j++){
    actu_part();
   for (int i=0;i<10;i++)
   for (PVector p:particles){
@@ -71,7 +71,7 @@ void draw_1(){
     xx = map(x, x1+2, x2-2, 0, width);
     yy = map(y, y1+2, y2-2, 0, height);
     point(xx,yy);
-    if( yy < height && x< width){
+    if( yy < height && x< width && xx>0){
       back[int(xx)][int(yy)] += 1;}
   }}
   draw_2();
@@ -94,7 +94,7 @@ void ini_ar(){
 
 void draw_2(){
   int mxx = 0;
-  int mnn = 0;
+  int mnn = 1;
   for (int i=0;i<width;i++)
   for (int j=0;j<height;j++){
     if (back[i][j] > mxx){
@@ -109,9 +109,14 @@ void draw_2(){
   for (int j=0;j<height;j++){
     float val = map(float(back[i][j]), mnn,mxx,0,1);
     val = 1-val;
-    val = pow(val,20.);
+    val = pow(val,100.);
     val = 1-val;
-    pixels[i+j*width] = color(255*val, 100, 200);
+    color c1 = color(255);
+    color c2 = color(0, 155, 155);
+    //color c3 = color(200, 20, 10);
+    float mid = .3;
+    if (val<1.3)pixels[i+j*width] = lerpColor(c1, c2, val);
+    //if (val>=mid)pixels[i+j*width] = lerpColor(c2, c3, val);
   }
   updatePixels();
 }
@@ -152,6 +157,24 @@ void init(){
   B=-2.562;
   C=-1.122;
   D=-2.562;
+  
+  /*A=2.0939999;
+  B=-2.412;
+  C=-2.412;
+  D=-2.1;
+*/
+
+  /*A=2.0939999;
+  B=-2.412;
+  C=1.224;
+  D=-1.716;*/
+
+  /*A=-1.662;
+  B=-2.88;
+  C=-2.418;
+  D=0.006000042
+;*/
+  
 
 ;
   
