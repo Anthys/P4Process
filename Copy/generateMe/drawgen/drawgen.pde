@@ -4,12 +4,37 @@ PImage img;
 int ch = 0;
 ArrayList<PVector> ppos;
 ArrayList<Integer> pcols;
+float len;
+String sessionid; 
+
+void settings(){
+
+  img = loadImage("picD.jpg");
+  size(img.width,img.height);
+
+}
+
+void cool_background(){
+  int n = 100;
+  for (int i=0;i<n;i++){
+    float xx = random(width);
+    float yy = random(height);
+    float s = random(500);
+    color c = img.get(int(xx), int(yy));
+    noStroke();
+    fill(c, 10);
+    circle(xx, yy, s);
+  }
+
+}
 
 void setup(){
-  size(470,680,P2D);
-  img = loadImage("img.jpg");
+  background(255);
+  sessionid = hex((int)random(0xffff),4);
   ppos = new ArrayList<PVector>();
   init();
+  len = 100;
+  cool_background();
 }
 
 void init(){
@@ -44,20 +69,23 @@ void init(){
 }
 
 void draw_(){
+  for (int j=0; j<50;j++){
   for (PVector p: ppos){
     color c = img.get(int(p.x),int(p.y));
     stroke(c, 250);
     point(p.x,p.y);
     update_pos(p, c);    
   }
-  if (frameCount>30){
+  }
+  init();
+  if (frameCount>len){
     frameCount=0;
     init();
   }
 }
 
 void update_pos(PVector p, color c){
-  int mode = 3;
+  int mode = 0;
   float v, strength;
   float res = 10;
   switch (mode){
@@ -121,10 +149,13 @@ void draw(){
 
 void keyPressed(){
   if (keyCode==32){
-    background(200);
+    background(255);
     init();
     ch = int(random(0,6));
     noiseSeed(int(random(100)));
+  }
+  if (key=='p'){
+    saveFrame(sessionid + "_out_####.png");
   }
 
 }

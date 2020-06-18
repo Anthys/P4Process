@@ -2,7 +2,7 @@ PImage img;
 
 
 void settings(){
-  img = loadImage("img.jpg");
+  img = loadImage("img4.jpg");
   size(img.width,img.height);
 }
 
@@ -23,4 +23,11 @@ void draw(){
     line(x, y, x+cos(theta), y+sin(theta));
     
   }
+}
+
+void keyPressed(){
+  if (key=='p'){
+    saveFrame("out_####.png");
+  }
+
 }

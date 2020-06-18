@@ -2,7 +2,7 @@ PImage img;
 
 
 void settings(){
-  img = loadImage("img.jpg");
+  img = loadImage("picA.jpg");
   size(img.width,img.height);
 }
 
@@ -19,7 +19,7 @@ void draw(){
     float s = random(0,10);
     float res = 3;
     float t = map(noise(x/width*res, y/height*res), 0,1,1,4);
-    s = map(noise(x/width*res, y/height*res), 0,1,0,20);
+    s = map(noise(x/width*res, y/height*res), 0,1,0,40);
     float theta = random(0,TWO_PI);
     //theta = map(noise(x/width*res, y/height*res), 0,1,0,TWO_PI);
     color c = img.get(int(x), int(y));
@@ -29,4 +29,11 @@ void draw(){
     //line(x, y, x+cos(theta)*s, y+s*sin(theta));
     circle(x, y, s);
   }
+}
+
+void keyPressed(){
+  if (key=='p'){
+    saveFrame("out_####.png");
+  }
+
 }
