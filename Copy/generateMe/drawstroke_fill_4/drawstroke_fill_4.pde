@@ -11,7 +11,7 @@ int sqwidth;
 int[] sintab, costab;
 
 void settings(){
-  img = loadImage("img3.jpg");
+  img = loadImage("img.jpg");
   size(img.width, img.height);
 }
 

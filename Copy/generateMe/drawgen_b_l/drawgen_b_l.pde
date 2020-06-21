@@ -1,7 +1,7 @@
 
 
 PImage img;
-int ch = 0;
+int ch = 5;
 ArrayList<PVector> ppos;
 ArrayList<Integer> pcols;
 float len;
@@ -9,7 +9,7 @@ String sessionid;
 
 void settings(){
 
-  img = loadImage("img.jpg");
+  img = loadImage("img5.jpg");
   size(img.width,img.height);
 
 }
@@ -34,12 +34,12 @@ void setup(){
   ppos = new ArrayList<PVector>();
   init();
   len = 100;
-  cool_background();
+  //cool_background();
 }
 
 void init(){
   int mode = 1;
-  int np = 1000;
+  int np = 10000;
   switch (mode){
     case 0:
       for (int i = 0; i<np; i++){
@@ -69,10 +69,11 @@ void init(){
 }
 
 void draw_(){
+  len = 100;
   for (int j=0; j<1;j++){
   for (PVector p: ppos){
     color c = img.get(int(p.x),int(p.y));
-    stroke(c, 250);
+    stroke(255-saturation(c), 100);
     point(p.x,p.y);
     update_pos(p, c);    
   }
@@ -154,7 +155,7 @@ void keyPressed(){
     ch = int(random(0,6));
     noiseSeed(int(random(100)));
   }
-  if (key=='p'){
+  if (key=='s'){
     saveFrame(sessionid + "_out_####.png");
   }
 

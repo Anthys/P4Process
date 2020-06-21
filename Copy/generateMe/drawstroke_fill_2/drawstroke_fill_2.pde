@@ -11,7 +11,7 @@ int sqwidth;
 int[] sintab, costab;
 
 void settings(){
-  img = loadImage("img.jpg");
+  img = loadImage("img5.jpg");
   size(img.width, img.height);
 }
 
@@ -95,7 +95,7 @@ void draw(){
     //println(1);
     draw__();
   }
-  //saveFrame("ttt/out-####.png");
+  saveFrame("ttt/out-####.tif");
 }
 
 ArrayList<Integer> colores;
