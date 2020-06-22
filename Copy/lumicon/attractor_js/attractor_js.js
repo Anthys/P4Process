@@ -7,8 +7,7 @@ var cstep;
 var formula;
 var start_i;
 var zoomz;
-
-var hidden;
+var extended_range;
 
 var cvs;
 
@@ -26,14 +25,14 @@ function setup() {
   t = 0;
   formula = 0;
   var sq = 10;
-  show_HUD = false;
-  hidden = false;
+  show_HUD = true;
   x1 = -2;
   x2 = 2;
   y1 = -2;
   y2 = 2;
-  zoomz = .2;
+  zoomz = .3;
   start_i = -1;
+  extended_range = 1;
 
   if (sq != 0){
     x1 = y1= -sq;
@@ -88,17 +87,13 @@ function ini_ar(){
 
 function draw() {
   t = float(frameCount)/10;
-  if (show_hud){
-    HUD();
-  }else{
-    if (cstep == 0){
+  if (cstep == 0){
       draw_1();
     }
     if (cstep == 1){
       draw_2();
     }
     tertio();
-  }
 }
 
 function draw_2(){
@@ -246,51 +241,62 @@ function HUD(){
 
 function tertio(){
   if (mouseIsPressed){
-  if (mouseButton == CENTER){ 
   var amp = 5;
+  if (mouseButton == CENTER){ 
   p1=map(mouseX, 0, width, -amp, amp);
   p2=map(mouseX, 0, width, -amp, amp);
   p3=map(mouseY, 0, height, -amp, amp);
   p4=map(mouseY, 0, height, -amp, amp);
+
   }
   if (mouseButton == LEFT){
-    all_vars[cur_set*2]=map(mouseX, 0, width, -3, 3);
-    all_vars[cur_set*2+1]=map(mouseY, 0, height, -3, 3);
-  }
-  if (mouseButton == RIGHT) {
-    a3 = map(mouseX, 0, width, -3, 3);
-    a4 = map(mouseY, 0, height, -3, 3);
+    switch (extended_range){
+      case 0:
+        amp = 1;
+        break;
+      case 1:
+        amp = 3;
+        break;
+      case 2:
+        amp = 5;
+        break;
+      case 3:
+        amp = 10;
+        break;
+    }
+    all_vars[cur_set*2]=map(mouseX, 0, width, -amp, amp);
+    all_vars[cur_set*2+1]=map(mouseY, 0, height, -amp, amp);
   }
   }
 }
 
 function hide_and_show(){
+  show_hud = !show_hud;
   var element = document.getElementById("cool");
-  if (hidden){
-    cvs.show();
+  if (show_hud){
+    //cvs.show(); 
     element.style.display = "none";
   }else{
-    cvs.hide();
+    //cvs.hide();
     element.style.display = "inline";
   }
-  hidden = !hidden;
   
 }
 
 function keyPressed(){
   
   if (key == 'h'){
-    show_hud = !show_hud;
+    hide_and_show();
+    /*show_hud = !show_hud;
     
     background(bcolor);
-  cstep= 0;
+    cstep= 0;
     ini_ar();
-    ini_part();
+    ini_part();*/
   }
   
   if (keyCode == 32){
   init();
-  hide_and_show();
 }
 
 if (key=='c'){
@@ -299,6 +305,14 @@ if (key=='c'){
   cstep= 0;
 }
 
+if (key=='q'){
+  extended_range = (extended_range+1)%4;  
+  noStroke();
+  fill(100);
+  rect(28+34*4,28,32,32);
+  fill(230);
+  text(extended_range, 40+34*4, 48);
+}
 if (key=='x'){
   
     background(bcolor);

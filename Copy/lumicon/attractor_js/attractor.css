@@ -1,11 +1,63 @@
 
 
 td, th {
-    border: 1px solid #999;
+    border: 1px solid rgb(14, 11, 11);
     padding: 0.5rem;
     text-align: center;
-  }
+    width: 50%;
+    margin: 0;
+}
 
-  table {
-    border-collapse: collapse;
-  }
+.tbl2 > tr > th, .tbl2 > tr > td{
+    border-left: none;
+}
+
+tr{
+    height: 10px;
+}
+
+table {
+border-collapse: collapse;
+width: auto;
+display: inline-block;
+}
+
+table tr{
+    background:white;
+}
+
+.tbl1 tr:nth-child(n+2)  { 
+    background: hsl(149, 82%, 69%); 
+}
+
+.tbl2 tr:nth-child(n+2)  { 
+    background: hsl(7, 54%, 63%); 
+}
+
+.tbl2 tr:nth-child(n+7)  { 
+    background: hsl(88, 83%, 68%); 
+}
+
+.tbl3 tr:nth-child(n+2)  { 
+    background: hsl(273, 77%, 74%); 
+}
+
+body{
+    
+    font-family: 'Roboto', sans-serif;
+    overflow: hidden;
+}
+
+p{
+    font-size: 1.5vw;
+}
+
+.mathline{
+    font-size: min(1vw, 2vh);
+
+}
+
+br {
+    display: block;
+    margin: 5px 0;
+ }
