@@ -5,7 +5,14 @@ var all_vars;
 var t;
 var cstep;
 var formula;
+var start_i;
 var zoomz;
+
+var hidden;
+
+var cvs;
+
+var show_hud;
 
 var particles;
 var back;
@@ -14,16 +21,19 @@ var back;
 function setup() {
   pixelDensity(1);
   bcolor = color(0);
-  createCanvas(windowWidth,windowHeight);
+  cvs = createCanvas(windowWidth,windowHeight);
   cstep = 0;
   t = 0;
   formula = 0;
   var sq = 10;
+  show_HUD = false;
+  hidden = false;
   x1 = -2;
   x2 = 2;
   y1 = -2;
   y2 = 2;
   zoomz = .2;
+  start_i = -1;
 
   if (sq != 0){
     x1 = y1= -sq;
@@ -44,9 +54,15 @@ function init(){
   for (let i=0;i<15;i++){
     all_vars.push(random(-1,1));
   }
+  
+  all_vars[0] = -1.25;
+  all_vars[1] = -1.25;
+  all_vars[2] = -1.82;
+  all_vars[3] = -1.91;
   ini_part();
   ini_ar();
   particles[0] = createVector(0,0);
+  modePoints = 1;
 }
 
 function ini_part(){
@@ -72,13 +88,17 @@ function ini_ar(){
 
 function draw() {
   t = float(frameCount)/10;
-  if (cstep == 0){
-    draw_1();
+  if (show_hud){
+    HUD();
+  }else{
+    if (cstep == 0){
+      draw_1();
+    }
+    if (cstep == 1){
+      draw_2();
+    }
+    tertio();
   }
-  if (cstep == 1){
-    draw_2();
-  }
-  tertio();
 }
 
 function draw_2(){
@@ -128,20 +148,23 @@ function draw_1(){
     case 0:
       mj = 1;
       mi = 1;
+      start_i = -1;
       break;
     case 1:
       mj = 1;
       mi = 10;
+      start_i = 5;
       break;
     case 2:
       mj = 1;
       mi = 1;
+      start_i = -1;
       break;
   }
   
-  for (let j=0;j<mi;j++){
+  for (let j=0;j<mj;j++){
     (mode_points==1)?ini_part():{};
-    for (let i=0;i<mj;i++){
+    for (let i=0;i<mi;i++){
       for (let k=0;k<particles.length;k++){
         var p = particles[k];
         stroke(255, 100);
@@ -179,7 +202,7 @@ function draw_1(){
         }
         p.x = x;
         p.y = y;
-        if (i>-1){
+        if (i>start_i){
           xx = map(x, (x1+p1)*zoomz, (x2+p2)*zoomz, 0, width);
           yy = map(y, (y1+p3)*zoomz, (y2+p4)*zoomz, 0, height);
           point(xx,yy);
@@ -195,6 +218,30 @@ function draw_1(){
 function inside( x, y){
   return (x>=0 && x<width && y>0 && y<height);
 
+}
+
+function HUD(){
+  fill(100);
+  rect(0,0,width, height);
+  noStroke();
+  textSize(25);
+  fill(10);
+  text("Formula:\n  Clifford :\n  Power attractor:\n  x=x,y=y:\n  Ikeda attractor:\n  Peter de Jong:\n", 10,40);
+  text("\n  A\n  Z\n  E\n  R\n  T\n", 230,40);
+  
+  text("CLEAR BACKGROUND:\n\nCLEAR BACKGROUND+ARRAY:\n\nHELP:", 10,260);
+  text("C\n\nX\n\nH", 400,260);
+  
+  stroke(0);
+  line(470,0,470,height);
+  noStroke();
+  
+  text("MODE POINTS:\n  - one iteration, no clear (for ikeda)\n  - 10 iterations, last 5 points, clear\n  - 1 iteration, no clear, lerp points", 500,40);
+  text("\n\n m to iterate", 950,40);
+  
+  text("COMBINATION (mapped to mouseX and mouseY):\n\n  A_1 and A_2\n  A_3 and A_4\n  A_5 and A_6\n  A_7 and A_8\n  A_9 and A_10\n  A_11 and A_12\n  A_13 and A_14", 500,250);
+  text("\n\n1\n2\n3\n4\n5\n6\n7", 750,250);
+  textSize(10);
 }
 
 function tertio(){
@@ -217,9 +264,33 @@ function tertio(){
   }
 }
 
+function hide_and_show(){
+  var element = document.getElementById("cool");
+  if (hidden){
+    cvs.show();
+    element.style.display = "none";
+  }else{
+    cvs.hide();
+    element.style.display = "inline";
+  }
+  hidden = !hidden;
+  
+}
+
 function keyPressed(){
+  
+  if (key == 'h'){
+    show_hud = !show_hud;
+    
+    background(bcolor);
+  cstep= 0;
+    ini_ar();
+    ini_part();
+  }
+  
   if (keyCode == 32){
   init();
+  hide_and_show();
 }
 
 if (key=='c'){
