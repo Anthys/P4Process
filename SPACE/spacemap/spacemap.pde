@@ -38,7 +38,7 @@ void draw_points(){
     color c = colores.get(i);
     strokeWeight(10);
     stroke(c);
-    point(p.x, p.y, p.z);
+    point(p.x+noise(p.x+float(frameCount)/50)*50, p.y, p.z);
   }
   //filter( BLUR, 3);
   //box(100);
@@ -51,7 +51,7 @@ void draw_points(){
     color c = colores.get(i);
     strokeWeight(7);
     stroke(c);
-    point(p.x, p.y, p.z);
+    point(p.x+noise(p.x+float(frameCount)/50)*50, p.y, p.z);
   }
 
 }

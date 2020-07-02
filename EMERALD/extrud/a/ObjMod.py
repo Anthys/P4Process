@@ -36,23 +36,7 @@ def replace_vectors(file, vec):
     file_w = open(file, "w+")
     file_w.write(file1)
     file_w.close()
-   
-    
-def protateX(v,th):
-    temp = PVector(v.y, v.z)
-    temp.rotate(th)
-    return PVector(v.x, temp.x, temp.y)
 
-def protateY(v,th):
-    temp = PVector(v.x, v.z)
-    temp.rotate(th)
-    return PVector(temp.x, v.y, temp.y)
-
-def protateZ(v,th):
-    temp = PVector(v.x, v.y)
-    temp.rotate(th)
-    return PVector(temp.x, temp.y, v.z)
-    
 def draw_shape(s, x0=0,y0=0, z0=0, sx = 1, sy=1, sz=1, ss= 1, rx=0, ry=0, rz=0, cf = color(255), cstroke=color(0), wstroke=.1):
     if ss != 1:
         sx = ss
@@ -66,6 +50,8 @@ def draw_shape(s, x0=0,y0=0, z0=0, sx = 1, sy=1, sz=1, ss= 1, rx=0, ry=0, rz=0, 
         beginShape()
         for j in range(f.getVertexCount()):
             v = f.getVertex(j)
+            mg = v.mag()
+            dir = v.copy().normalize()
             if rx:
                 v = protateX(v,rx)
             if ry:
