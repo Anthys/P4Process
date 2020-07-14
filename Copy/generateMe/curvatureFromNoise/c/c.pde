@@ -18,6 +18,7 @@ class Agent {
     PVector v = sinusoidal(vc,1);
     v.mult(5);
     v.add(new PVector(5,-3));
+    v.x=1/v.x;
  
     // modify an angle using noise information
     angle += 3* map( noise(v.x, v.y), 0, 1, -1, 1);
