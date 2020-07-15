@@ -1,3 +1,5 @@
+class variations{
+
 PVector linear(PVector p, float rotation, float size){
     PVector p2 = new PVector(size*p.x, size*p.y);
     p2.rotate(rotation);
@@ -135,5 +137,103 @@ PVector cosine(PVector p){
     return new PVector(cos(PI*p.x)*cosh(p.y), -sin(PI*p.x)*sinh(p.y));
 }
 
+PVector rings(PVector p, float c){
+    float r = p.mag();
+    float theta = atan2(p.x,p.y);
+    return new PVector(cos(theta), sin(theta)).mult((r+c*c)%(2*c*c)-c*c+r*(1-c*c));  
+}
+
+PVector fan(PVector p,float c, float f){
+    float r = p.mag();
+    float theta = atan2(p.x,p.y);
+    float t = PI*c*c;
+    PVector out;
+    if ((theta+f)%t>t/2){
+      out = new PVector(cos(theta-t/2), sin(theta-t/2)).mult(r);
+    }
+    else {
+      out = new PVector(cos(theta+t/2), sin(theta+t/2)).mult(r);
+    }
+    return out;
+}
+
+PVector blob(PVector p, float p1,float p2,float p3){
+    float r = p.mag();
+    float theta = atan2(p.x,p.y);
+  return new PVector(cos(theta),sin(theta)).mult(p2+(p1-p2)/2*(sin(p3*theta)+1)).mult(r);
+}
+
+PVector pdj(PVector p, float p1, float p2, float p3, float p4){
+  return new PVector(sin(p1*p.y)-cos(p2*p.x), sin(p3*p.x)-cos(p4*p.y));
+}
+
+PVector fan2(PVector p, float fx, float fy){
+  float r = p.mag();
+  float theta = atan2(p.x,p.y);
+  float p1 = PI*(fx*fx);
+  float p2 = fy;
+  float t = theta+p2-p1*round(2*theta*p2/p1);
+  PVector out;
+  if (t>p1/2){
+    out = new PVector(sin(theta-p1/2),cos(theta-p1/2)).mult(r);
+  }
+  else{
+    out = new PVector(sin(theta+p1/2),cos(theta+p1/2)).mult(r);
+  }
+  return out;
+}
+
+PVector rings2(PVector p, float v){
+  float r = p.mag();
+  float theta = atan2(p.x,p.y);
+  float p1 = v*v;
+  float t = r-2*p1*round((r+p1)/(2*p1))+r*(1-p1);
+  return new PVector(sin(theta), cos(theta)).mult(t);
+}
+
+PVector eyefish(PVector p){
+  float r = p.mag();
+  return new PVector(p.x, p.y).mult(2/(r+1));
+}
+
+PVector bubble(PVector p){
+  float r = p.mag();
+  return new PVector(p.x, p.y).mult(4/(r*r+4));
+}
+
+PVector cylinder(PVector p){
+  return new PVector(sin(p.x), p.y);
+}
+
+PVector perspective(PVector p, float p1, float p2){
+  return new PVector(p.x, p.y*cos(p1)).mult(p2/(p2-p.y*sin(p1)));
+}
+
+PVector noise(PVector p){
+  float psi1 = random(1);
+  float psi2 = random(1);
+  return new PVector(p.x*cos(TAU*psi2), p.y*sin(TAU*psi2)).mult(psi1);
+}
+
+PVector julian(PVector p, float p1, float p2){
+  float r = p.mag();
+  float phi = atan2(p.y,p.x);
+  float p3 = round(abs(p1)*random(1));
+  float t = (phi+TAU*p3)/p1;
+  return new PVector(cos(t), sin(t)).mult(pow(r, p2/p1));
+}
+
+PVector juliascope(PVector p, float p1, float p2){
+  float r = p.mag();
+  float phi = atan2(p.y,p.x);
+  float p3 = round(abs(p1)*random(1));
+  float A = ((int)random(0,2))*2-1;
+  float t = (A*phi+TAU*p3)/p1;
+  return new PVector(cos(t), sin(t)).mult(pow(r, p2/p1));
+}
+
+
 final float cosh(float x) { return 0.5 * (exp(x) + exp(-x));}
 final float sinh(float x) { return 0.5 * (exp(x) - exp(-x));}
+
+}

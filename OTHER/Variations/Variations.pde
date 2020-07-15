@@ -17,6 +17,7 @@ void draw(){
      PVector p = new PVector(x,y);
      //p = new PVector(sin(p.x), sin(p.y));
      //p = waves(p,.1,.1,.1,.1);
+     //p = rings(p,.5);
      p = exponential(p);
      x = map(p.x, -1,1,0,width);
      y = map(p.y, -1,1,0,height);
