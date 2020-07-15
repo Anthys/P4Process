@@ -18,10 +18,10 @@ void draw(){
      //p = new PVector(sin(p.x), sin(p.y));
      //p = waves(p,.1,.1,.1,.1);
      //p = rings(p,.5);
-     p = exponential(p);
+     p = variations.pie(p, 4, 2, .1);
      x = map(p.x, -1,1,0,width);
      y = map(p.y, -1,1,0,height);
-     vertex(x,y);
+     point(x,y);
   }
   endShape();
   }
