@@ -24,7 +24,7 @@ class Agent {
     // VARIATION HERE
     
     v.mult(3);
-    v.add(new PVector(5,-3));
+    //v.add(new PVector(5,-3));
     float b = noise(v.x, v.y)*2-1;
     b = atan2(v.x, v.y);
     PVector a = variation1t2.cardiod(b);
@@ -37,8 +37,8 @@ class Agent {
     // modify an angle using noise information
     float scale_angle = 3;
     float m = map( noise(v.x, v.y), 0, 1, -1, 1);
-    m = atan2(v.x, v.y)*20;
-    m = m*m;
+    m = atan2(v.x, v.y)*10;
+    m = m/cos(m);
     angle += scale_angle* m;
   }
   

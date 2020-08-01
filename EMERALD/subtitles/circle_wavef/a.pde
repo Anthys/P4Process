@@ -8,8 +8,9 @@ class Agent {
  
   void update() {
     // modify position using current angle
-    pos.x += cos(angle);
-    pos.y += sin(angle);
+    float amp = 1;
+    pos.x += cos(angle)*amp;
+    pos.y += sin(angle)*amp;
  
     PVector scale_pos = new PVector(1,1);
      
@@ -23,10 +24,10 @@ class Agent {
     
     // VARIATION HERE
     
-    v.mult(3);
-    v.add(new PVector(5,-3));
-    float c = noise(v.x, v.y)*2-1;
-    float b = atan2(v.x, v.y);
+    v.mult(4);
+    v.add(new PVector(0,-0));
+    float b = noise(v.x, v.y)*2-1;
+    b = atan2(v.x, v.y);
     PVector a = variation1t2.cardiod(b);
         
     //v .add( a);
@@ -37,8 +38,10 @@ class Agent {
     // modify an angle using noise information
     float scale_angle = 3;
     float m = map( noise(v.x, v.y), 0, 1, -1, 1);
-    m = atan2(v.x, v.y)*20;
-    //m = m*c;
+    m = v.mag()/atan2(v.x, v.y);
+    m = pow(m, 4);
+    //m=cos(m);
+    //m = noise(m);
     angle += scale_angle* m;
   }
   
@@ -54,41 +57,39 @@ ArrayList<Agent> agents = new ArrayList<Agent>();
  
 void setup() {
   //size(1000, 1000);
-  smooth(8);
   init();
 }
 
 void init(){
   noiseSeed((int)random(1000));
   background(240);
-  background(0);
+  background(#300469);
   stroke(20, 10);
   strokeWeight(0.7);
-  strokeWeight(2);
+  strokeWeight(.7);
  
   // initialize in random positions
-  int val = 2;
+  int val = 1;
   int numPoints = 10000;
   int rcolor = (int)random(7);
+  //rcolor = 7;
   agents.clear();
   if (val == 0){
     for (int i=0; i<numPoints; i++) {
       Agent a = new Agent();
       a.self_i = i;
-      float posx = random(200, 600);
-      float posy = random(200, 600);
-      posx = random(0,width);
-      posy = random(0,height);
+      float posx = random(0, 1000);
+      float posy = random(0, height);
       a.pos = new PVector(posx, posy);
       a.angle = random(TWO_PI);      
       float fx = map(posx, 0,width, 0,1);
       float fy = map(posy, 0,height, 0,1);
-      color col = rgradient(rcolor, fx, fy);
+      color col = rgradient(rcolor, fx*8, random(1));
       a.col = col;
       agents.add(a);
     }
   }else if (val==1){
-    float radius = 600;
+    float radius = 300;
     float fract = (1+sqrt(5))/2;
     for (int i=0; i<numPoints; i++) {
       Agent a = new Agent();
@@ -97,32 +98,6 @@ void init(){
       float angle = 2*PI*fract*i;
       float posx = dst*cos(angle)+width/2+randomGaussian()*8;
       float posy = dst*sin(angle)+height/2+randomGaussian()*8;
-      a.pos = new PVector(posx, posy);
-      a.angle = random(TWO_PI);
-      
-      float fx = map(posx, 0,width, 0,1);
-      float fy = map(posy, 0,height, 0,1);
-      color col = rgradient(rcolor, fx, fy);
-      a.col = col;
-      agents.add(a);
-    }
-  }
-  else if (val == 2){
-    PVector[] poss = new PVector[]{
-      new PVector(500,300),
-      new PVector(300,650),
-      new PVector(700,650),
-    };
-    float radius = 100;
-    float fract = (1+sqrt(5))/2;
-    for (int i=0; i<numPoints; i++) {
-    int b = (int)random(3);
-      Agent a = new Agent();
-      a.self_i = i;
-      float dst = radius;
-      float angle = random(2*PI);
-      float posx = dst*cos(angle)+poss[b].x+randomGaussian()*8;
-      float posy = dst*sin(angle)+poss[b].y+randomGaussian()*8;
       a.pos = new PVector(posx, posy);
       a.angle = random(TWO_PI);
       
@@ -152,6 +127,10 @@ color rgradient(int thing, float fx, float fy){
   if (thing >= 4 && thing <=6){
     col = color(noise(1)*(255),noise(fx, fy)*noise(2)*255,noise(fy, fx)*noise(3)*255);
     col = lerpColor(col, color(255),.5);
+  }
+  if (thing == 7){
+    col = color(noise(fx+fy)*255, noise(fy-fy+200)*255, noise(fx*fy+400)*255);
+    //col = lerpColor(col, color(255),.5);
   }
   return col;
 }
