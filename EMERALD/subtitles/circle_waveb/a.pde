@@ -67,7 +67,7 @@ void init(){
   strokeWeight(2);
  
   // initialize in random positions
-  int val = 0;
+  int val = 2;
   int numPoints = 10000;
   int rcolor = (int)random(7);
   agents.clear();
@@ -97,6 +97,32 @@ void init(){
       float angle = 2*PI*fract*i;
       float posx = dst*cos(angle)+width/2+randomGaussian()*8;
       float posy = dst*sin(angle)+height/2+randomGaussian()*8;
+      a.pos = new PVector(posx, posy);
+      a.angle = random(TWO_PI);
+      
+      float fx = map(posx, 0,width, 0,1);
+      float fy = map(posy, 0,height, 0,1);
+      color col = rgradient(rcolor, fx, fy);
+      a.col = col;
+      agents.add(a);
+    }
+  }
+  else if (val == 2){
+    PVector[] poss = new PVector[]{
+      new PVector(500,300),
+      new PVector(300,650),
+      new PVector(700,650),
+    };
+    float radius = 100;
+    float fract = (1+sqrt(5))/2;
+    for (int i=0; i<numPoints; i++) {
+    int b = (int)random(3);
+      Agent a = new Agent();
+      a.self_i = i;
+      float dst = radius;
+      float angle = random(2*PI);
+      float posx = dst*cos(angle)+poss[b].x+randomGaussian()*8;
+      float posy = dst*sin(angle)+poss[b].y+randomGaussian()*8;
       a.pos = new PVector(posx, posy);
       a.angle = random(TWO_PI);
       
