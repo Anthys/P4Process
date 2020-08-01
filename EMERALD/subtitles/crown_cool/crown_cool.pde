@@ -7,7 +7,7 @@ void setup(){
 }
 
 void settings(){
-  size(1000, 1000);
+  size(1900, 1900);
 
   smooth(8);
 }

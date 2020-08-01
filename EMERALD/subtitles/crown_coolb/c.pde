@@ -5,9 +5,9 @@ class PosNoise {
     
     // global configuration
     float time = 0; // time passes by
-    color cback = #47135A;
+    color cback = 0;
 
-    float square_l = 3;
+    float square_l = 6;
     float npoints;
     int type_mod = 1; // lerp or add
     
@@ -37,7 +37,7 @@ class PosNoise {
    
     void draw() {
         int point_idx = 0;
-        float edge_l = 2;
+        float edge_l = 5;
         float map_l = square_l + edge_l;
 
         for (PVector p : points) {
@@ -65,11 +65,24 @@ class PosNoise {
             float n = noise(p.x, p.y);
 
             PVector v = new PVector(0,0);
+            
+            
+            n = noise(p.x, p.y)*100;
+            n= n/p.mag()/atan2(p.x, p.y);
+            
+            v = variation1t2.cardiod(n);
+            
+            
+            float c = 1./30000*n;
+            c = atan2(p.x, p.y)*p.mag();
+            
+            v.mult(c);
 
             // placeholder for vector field calculations
 
             float stren = .2;
             float vector_scale = 0.01; 
+            
 
             switch (type_mod){
                 case 0:
