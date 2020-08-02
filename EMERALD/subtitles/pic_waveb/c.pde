@@ -33,8 +33,8 @@ class PosNoise {
             // placeholder for vector field calculations
             float ximg = map(pt.x, -map_l, map_l, 0, img.width);
             float yimg = map(pt.y, -map_l, map_l, 0, img.height);
-            color cimg2 = img.get(int(ximg), int(yimg));
-            color cimg = cvs.get(int(ximg), int(yimg));
+            color cimg = img.get(int(ximg), int(yimg));
+            //color cimg = cvs.get(int(ximg), int(yimg));
             
             PVector p = new PVector(xx,yy);
 
@@ -46,9 +46,15 @@ class PosNoise {
             n = noise(p.x, p.y)*100;
             n=p.x*p.y;///atan2(p.x, p.y);
             boolean d = (p.x*p.x+p.y*p.y)<=6;
+            d = p.mag()+sin(p.x)<3;
             n = pow(red(cimg)*abs(cos(green(cimg))), .1);
-            n = abs(n*sin(blue(cimg2)));//*noise(p.x,p.y);
-            if (!d) n=n*cos(n);
+            n = abs(n*sin(blue(cimg)));//*noise(p.x,p.y);
+            float a1=n*5*cos(p.x);
+            float a2 = n;
+            float val = (p.mag())/6;
+            val = pow(val, .5);
+            float a3 = constrain(val, 0,1);
+            n = lerp(a1,a2,a3);
             v = variation1t2.cardiod(n);
             
             
@@ -99,7 +105,7 @@ class PosNoise {
     void setup() {
         cvs = createGraphics(width, height);
         cvs.smooth(8);
-        img = loadImage("a.jpg");
+        img = loadImage("b.jpg");
         img.resize(width, height);
         // noiseSeed(1111);
         init();

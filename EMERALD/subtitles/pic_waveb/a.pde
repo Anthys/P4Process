@@ -8,7 +8,6 @@ class CurvNoise {
         PVector pos; // position of the agent
         float angle; // current angle of the agent
         color col;
-        int mi;
         
         void update() {
             // modify position using current angle
@@ -76,7 +75,6 @@ class CurvNoise {
                     float fy = map(posy, 0,height, 0,1);
                     color col = rgradient(rcolor, fx, fy);
                     a.col = col;
-                    a.mi = i;
                     agents.add(a);
                 }
                 break;
@@ -96,7 +94,6 @@ class CurvNoise {
                     float fy = map(posy, 0,height, 0,1);
                     color col = rgradient(rcolor, fx, fy);
                     a.col = col;
-                    a.mi = i;
                     agents.add(a);
                 }
                 break;

@@ -1,5 +1,5 @@
 // Template based on GenerateMe's one
-class PosNoise {
+class PosNoiseB {
  
     ArrayList<Agent> agents = new ArrayList<Agent>();
     
@@ -13,7 +13,6 @@ class PosNoise {
     float npoints;
     int type_mod = 1; // lerp or add
     
-    PImage img;
     PGraphics cvs;
     
     class Agent {
@@ -25,40 +24,18 @@ class PosNoise {
         int self_i;
         
         void update() {
-          float scale_v = square_l;
+            float scale_v = square_l;
 
             float xx = scale_v*map(pt.x, -square_l, square_l, -1, 1);
             float yy = scale_v*map(pt.y, -square_l, square_l, -1, 1);
             // v is vector from the field
             // placeholder for vector field calculations
-            float ximg = map(pt.x, -map_l, map_l, 0, img.width);
-            float yimg = map(pt.y, -map_l, map_l, 0, img.height);
-            color cimg2 = img.get(int(ximg), int(yimg));
-            color cimg = cvs.get(int(ximg), int(yimg));
             
             PVector p = new PVector(xx,yy);
 
             float n = noise(p.x, p.y);
 
             PVector v = new PVector(0,0);
-            
-            
-            n = noise(p.x, p.y)*100;
-            n=p.x*p.y;///atan2(p.x, p.y);
-            boolean d = (p.x*p.x+p.y*p.y)<=6;
-            n = pow(red(cimg)*abs(cos(green(cimg))), .1);
-            n = abs(n*sin(blue(cimg2)));//*noise(p.x,p.y);
-            if (!d) n=n*cos(n);
-            v = variation1t2.cardiod(n);
-            
-            
-            float c = 1./30000*n;
-            //c = p.mag();
-            //v.x += c;
-            //v.mult(int(c)+1);
-            //v.x+=(red(cimg)*.01);
-            v.normalize();
-            //v.mult(3);
 
             // placeholder for vector field calculations
 
@@ -83,14 +60,7 @@ class PosNoise {
             float xx = map(pt.x, -map_l, map_l, 0, width);
             float yy = map(pt.y, -map_l, map_l, 0, height);
             
-            //float ximg = map(p.x, -map_l, map_l, 0, img.width);
-            //float yimg = map(p.y, -map_l, map_l, 0, img.height);
-            float ximg = map(noise(pt.x), 0, 1, 0, img.width);
-            float yimg = map(noise(pt.y), 0, 1, 0, img.height);
-            color cimg = img.get(int(ximg), int(yimg));
-            //cvs.stroke(#DE0909, 50);
-            //cvs.stroke(cimg, 30);
-            cvs.stroke(col,50);
+            cvs.stroke(#DE0909, 50);
             cvs.point(xx, yy); //draw
         }
 
@@ -99,8 +69,6 @@ class PosNoise {
     void setup() {
         cvs = createGraphics(width, height);
         cvs.smooth(8);
-        img = loadImage("a.jpg");
-        img.resize(width, height);
         // noiseSeed(1111);
         init();
     }
@@ -122,12 +90,6 @@ class PosNoise {
             a.pt = v;
             a.vel = new PVector(0,0);
             a.self_i = i;
-            float ximg = map(v.x, -map_l, map_l, 0, img.width);
-            float yimg = map(v.y, -map_l, map_l, 0, img.height);
-            ximg = noise(v.x, v.y)*img.width;
-            yimg = noise(v.y, v.x)*img.height;
-            color cimg = img.get(int(ximg), int(yimg));
-            a.col = cimg;
             agents.add(a);
             i++;
         }
@@ -152,9 +114,6 @@ class PosNoise {
         }
         if (keyCode == 32){
             init();
-        }
-        if (key == 'd'){
-          image(img, 0,0);
         }
     }
 }
