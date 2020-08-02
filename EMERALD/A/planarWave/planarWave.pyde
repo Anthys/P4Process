@@ -129,7 +129,9 @@ def draw():
     global t, ini_vec, cur_vec
     background(200)
     scale(30)
-    rotateX(PI)
+    rotateX(-PI*.7)
+    rotateZ(PI-t/1000)
+    #rotateY(PI/4)
     rotateX(-PI/2)
     t += 1.
     if frameCount == 1:
@@ -151,7 +153,7 @@ def draw():
     speed = t/100
     alternate_shape(shapes["ppp"], y0 = 4+cos(t/50)*0.5, x0 = cos(speed)*4, z0 = sin(speed)*4, ry = speed, rx= sin(t/50)*0.5, ss = 0.7)
     #replace_v("plana.obj", ini_vec)
-    #saveFrame("out/out-####.png")
+    saveFrame("out/out-####.png")
 
 def keyPressed():
     pass

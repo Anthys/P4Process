@@ -68,18 +68,17 @@ class PosNoise {
             
             
             n = noise(p.x, p.y)*100;
-            n= n*p.mag();///atan2(p.x, p.y);
+            n=p.x*p.y;///atan2(p.x, p.y);
             
             v = variation1t2.cardiod(n);
             
             
             float c = 1./30000*n;
-            c = p.mag();
+            //c = p.mag();
             //v.x += c;
-            v.mult(int(c)+1);
+            //v.mult(int(c)+1);
             v.normalize();
-            v.mult(3);
-            v.mult(cos(c));
+            //v.mult(3);
 
             // placeholder for vector field calculations
 
