@@ -99,15 +99,16 @@ class PosNoise {
             float xx = map(pt.x, -map_l, map_l, 0, width);
             float yy = map(pt.y, -map_l, map_l, 0, height);
             
-            //float ximg = map(p.x, -map_l, map_l, 0, img.width);
-            //float yimg = map(p.y, -map_l, map_l, 0, img.height);
-            float ximg = map(noise(pt.x), 0, 1, 0, img.width);
-            float yimg = map(noise(pt.y), 0, 1, 0, img.height);
+            float ximg = map(pt.x, -map_l, map_l, 0, img.width);
+            float yimg = map(pt.y, -map_l, map_l, 0, img.height);
+            //float ximg = map(noise(pt.x), 0, 1, 0, img.width);
+            //float yimg = map(noise(pt.y), 0, 1, 0, img.height);
             color cimg = img.get(int(ximg), int(yimg));
-            color cimg2 = img.get(int(noise(cimg)*img.width), int((10+noise(cimg))*img.height));
+            color cimg2 = img.get(int(noise(cimg)*img.width), int((noise(100+cimg))*img.height));
+            cimg2 = lerpColor(cimg, cimg2, 0);
             //cvs.stroke(#DE0909, 50);
             //cvs.stroke(cimg, 30);
-            cvs.stroke(col,250);
+            cvs.stroke(cimg2,250);
             
             cvs.point(xx, yy); //draw
         }
@@ -117,7 +118,7 @@ class PosNoise {
     void setup() {
         cvs = createGraphics(width, height);
         cvs.smooth(8);
-        img = loadImage("b.jpg");
+        img = loadImage("a.jpg");
         img.resize(width, height);
         // noiseSeed(1111);
         init();
