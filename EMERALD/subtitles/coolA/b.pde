@@ -1,7 +1,5 @@
 import java.util.Random;
 
-static PApplet pa;
-
 static class variations2t2{
   
 
@@ -449,52 +447,6 @@ static class variation1t2{
     return new PVector(t, 1/(1+t*t));
   }
   
-}
-
-
-static class variation1t1{
-
-  static float uwu(float in){
-    int rand = (int)utils.random(13);
-    return uwu(in, rand);
-  }
-
-  static float uwu(float in, int rand){
-    float out = 0;
-
-    switch (rand){
-      case 0:
-        out = cos(in);
-      case 1:
-        out = sin(in);
-      case 2:
-        out = sqrt(in);
-      case 3:
-        out = pow(in, 2);
-      case 4:
-        out = log(in);
-      case 5:
-        out = exp(in);
-      case 6:
-        out = abs(in);
-      case 7:
-        out = ceil(in);
-      case 8:
-        out = tan(in);
-      case 9:
-        out = acos(in);
-      case 10:
-        out = asin(in);
-      case 11:
-        out = atan(in);
-      case 12:
-        out = 1/(in);
-    }
-    return out;
-
-
-  } 
-
 }
 
 

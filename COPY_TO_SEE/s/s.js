@@ -1,0 +1,13 @@
+t=0//#つぶやきProcessing
+draw=_=>{t||createCanvas(W=600,W)
+background(W)
+t+=.01
+w=W/2
+S=sin
+C=cos
+c=constrain
+strokeWeight(4)
+for(n=44;n-->1;)for(j=i=8;i--;){T=TAU/j*i+S(S(t)*n/PI)
+U=T+PI/j*C(t)
+r=n*10
+line(w+C(T)*r,w+S(T)*r,w+C(U)*r,w+S(U)*r)}}

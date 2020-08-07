@@ -2,16 +2,12 @@
 class CurvNoise {
 
     color cback = 0;
-    float time = 0;
-    int seed;
-    PGraphics cvs;
   
     class Agent {
 
         PVector pos; // position of the agent
         float angle; // current angle of the agent
         color col;
-        int mi;
         
         void update() {
             // modify position using current angle
@@ -42,31 +38,25 @@ class CurvNoise {
             angle += scale_angle* m;
         }
         
-        void draw(PGraphics cvs){
-            cvs.stroke(col, 20);
-            cvs.point(pos.x, pos.y);
+        void draw(){
+            stroke(col, 20);
+            point(pos.x, pos.y);
         }
 
     }
     
     ArrayList<Agent> agents = new ArrayList<Agent>();
-
-    void init(){
-        seed = (int)random(1000);
-        init(seed);
+    
+    void setup() {
+        smooth(8);
+        init();
     }
 
-    void init(int seed){
-        noiseSeed(seed);
-
-        cvs = createGraphics(width, height);
-        cvs.smooth(8);
-
-        cvs.beginDraw();
-        cvs.background(cback);
-        cvs.stroke(20, 10);
-        cvs.strokeWeight(0.7);
-        cvs.endDraw();
+    void init(){
+        noiseSeed((int)random(1000));
+        background(cback);
+        stroke(20, 10);
+        strokeWeight(0.7);
         
         // initialize in random positions
         int val = 0;
@@ -85,7 +75,6 @@ class CurvNoise {
                     float fy = map(posy, 0,height, 0,1);
                     color col = rgradient(rcolor, fx, fy);
                     a.col = col;
-                    a.mi = i;
                     agents.add(a);
                 }
                 break;
@@ -105,7 +94,6 @@ class CurvNoise {
                     float fy = map(posy, 0,height, 0,1);
                     color col = rgradient(rcolor, fx, fy);
                     a.col = col;
-                    a.mi = i;
                     agents.add(a);
                 }
                 break;
@@ -135,20 +123,13 @@ class CurvNoise {
         return col;
     }
     
-
-    void update(){
-        for (Agent a : agents) {
-            a.update();
-        }
-    }
+    float time = 0;
 
     void draw() {
-        cvs.beginDraw();
         for (Agent a : agents) {
-            a.draw(cvs);
+            a.draw();
+            a.update();
         }
-        cvs.endDraw();
-        image(cvs, 0, 0);
         time += 0.001;
     }
 
@@ -156,10 +137,6 @@ class CurvNoise {
     void keyPressed(){
         if (key=='p' || key=='s'){
             saveFrame("out-####.png");
-        }
-        if (key == 'n'){
-            println(seed);
-            init(seed);
         }
         if (keyCode == 32){
             init();
