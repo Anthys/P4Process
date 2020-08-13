@@ -45,6 +45,10 @@ class CurvNoise {
             //m = m/cos(m);
             m = m*(cos(v.mag())*.1);
             angle += scale_angle* m;
+            float d = v.mag();
+            d = cos(d*.1);
+            d = d*TAU;
+            angle = d;
         }
         
         void draw(PGraphics cvs){
@@ -70,7 +74,7 @@ class CurvNoise {
         cvs.beginDraw();
         cvs.background(cback);
         cvs.stroke(20, 10);
-        cvs.strokeWeight(.6);
+        cvs.strokeWeight(2);
         cvs.endDraw();
         
         // initialize in random positions

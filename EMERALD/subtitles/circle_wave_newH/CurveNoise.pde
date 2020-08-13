@@ -44,7 +44,12 @@ class CurvNoise {
             m = atan2(v.x, v.y)*10;
             //m = m/cos(m);
             m = m*(cos(v.mag())*.1);
-            angle += scale_angle* m;
+            //angle += scale_angle* m;
+            float d = v.mag();
+            d = cos(d*.1);
+            d = d*.01;
+            float e = v.mag();
+            angle = PI-atan2(v.x, v.y);
         }
         
         void draw(PGraphics cvs){
@@ -70,7 +75,7 @@ class CurvNoise {
         cvs.beginDraw();
         cvs.background(cback);
         cvs.stroke(20, 10);
-        cvs.strokeWeight(.6);
+        cvs.strokeWeight(2);
         cvs.endDraw();
         
         // initialize in random positions
@@ -149,6 +154,7 @@ class CurvNoise {
 
     void draw() {
         cvs.beginDraw();
+        cvs.background(cback, 10);
         for (Agent a : agents) {
             a.draw(cvs);
         }
