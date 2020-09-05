@@ -4,9 +4,11 @@ import java.util.Arrays;
 int lpal;
 Integer[] pal;
 
-int sq_size = 50;
-int width_grid;
-int height_grid;
+int n_sq = 20;
+int panel_l;
+float sq_size;
+
+boolean refl = true;
 
 PGraphics cvs;
 PGraphics dbg;
@@ -28,8 +30,6 @@ Integer[] newPalette(int n){
 
 void setup(){
   size(1000,1000);
-  width_grid = (int)width/sq_size;
-  height_grid = (int)height/sq_size;
   
   init();
 }
@@ -151,63 +151,112 @@ ArrayList<Integer> get_cols(int combi, int top, int left){
 
 
 int newLine(int rule, int a, int b, int c){
-  String s = str(a)+str(b)+str(c);
-  return (s.charAt(rule%3)=='0')?0:1;
+  String s = str(a)+str(b)+str(c)+str(a*c)+str(a*b)+str(b*c)+str(a*b*c);
+  return (s.charAt(rule%7)=='0')?0:1;
 }
 
+void draw_one(){
+    cvs.beginShape();
+    cvs.vertex(0,0);
+    cvs.quadraticVertex(0, sq_size/2, sq_size/2, sq_size/2);
+    cvs.vertex(sq_size/2, sq_size/2);
+    cvs.vertex(0, sq_size/2);
+    cvs.vertex(0,0);
+    cvs.endShape();
+    cvs.beginShape();
+    cvs.vertex(0, sq_size/2);
+    cvs.vertex(sq_size/2, sq_size/2);
+    cvs.quadraticVertex(sq_size/2, sq_size, 0, sq_size);
+    cvs.vertex(0, sq_size);
+    cvs.vertex(0, sq_size/2);
+    cvs.endShape();
+}
 
+void draw_cell(Cell c){
+  for (int i = 0;i<2;i++){
+    float x0 = .5*i;
+    float y0 = .5*i;
+    cvs.push();
+    cvs.translate(x0,y0);
+    
+    cvs.fill(pal[c.n_color]);
+    cvs.push();
+    cvs.rotate(PI/2);
+    cvs.translate(-sq_size*0, -sq_size);
+    draw_one();
+    cvs.pop();
+    
+    cvs.fill(pal[c.s_color]);
+    cvs.push();
+    cvs.rotate(-PI/2);
+    cvs.translate(-sq_size, 0*sq_size);
+    draw_one();
+    cvs.pop();  
+    
+    cvs.fill(pal[c.w_color]);
+    draw_one();
+    
+    
+    cvs.push();
+    cvs.rotate(PI);
+    cvs.translate(-sq_size, -sq_size);
+    cvs.fill(pal[c.e_color]);
+    draw_one();
+    cvs.pop();
+    
+    cvs.pop();
+  }
+}
 
 void draw(){
   noLoop();
   cvs.beginDraw();
   dbg.beginDraw();
-  for (int i = 0; i<height_grid;i++){
-    for (int j=0; j<width_grid;j++){
+  for (int i = 0; i<n_sq;i++){
+    for (int j=0; j<n_sq;j++){
       cvs.push();
       cvs.translate(j*sq_size,i*sq_size);
       Cell c = grid.get(i).get(j);
-      
       cvs.noStroke();
-      
       cvs.strokeWeight(1);
-      
-      cvs.fill(pal[c.n_color]);
-      cvs.beginShape();
-      cvs.vertex(0,0);
-      cvs.vertex(sq_size,0);
-      cvs.vertex(sq_size/2,sq_size/2);
-      cvs.endShape(CLOSE);
-      
-      cvs.fill(pal[c.w_color]);
-      cvs.beginShape();
-      cvs.vertex(0,0);
-      cvs.vertex(sq_size/2,sq_size/2);
-      cvs.vertex(0,sq_size);
-      cvs.endShape(CLOSE);
-      
-      cvs.fill(pal[c.s_color]);
-      cvs.beginShape();
-      cvs.vertex(0,sq_size);
-      cvs.vertex(sq_size/2,sq_size/2);
-      cvs.vertex(sq_size,sq_size);
-      cvs.endShape(CLOSE);
-      
-      cvs.fill(pal[c.e_color]);
-      cvs.beginShape();
-      cvs.vertex(sq_size,0);
-      cvs.vertex(sq_size/2,sq_size/2);
-      cvs.vertex(sq_size,sq_size);
-      cvs.endShape(CLOSE);
-      
-      
-      
+      draw_cell(c);      
       cvs.stroke(255);
       cvs.strokeWeight(2);
       if (c.top_line == 1 && false){
         cvs.line(0,0,sq_size, 0);
       }
-      
       cvs.pop();
+      if (refl){
+        cvs.push();
+        cvs.translate(width, height);
+        cvs.scale(-1,-1);
+        cvs.translate(j*sq_size,i*sq_size);
+        c = grid.get(i).get(j);
+        cvs.noStroke();
+        cvs.strokeWeight(1);
+        draw_cell(c);    
+        cvs.pop();
+        
+        cvs.push();
+        cvs.translate(width, 0);
+        cvs.scale(-1,1);
+        cvs.translate(j*sq_size,i*sq_size);
+        c = grid.get(i).get(j);
+        cvs.noStroke();
+        cvs.strokeWeight(1);
+        draw_cell(c);    
+        cvs.pop();
+        
+        cvs.push();
+        cvs.translate(0, height);
+        cvs.scale(1,-1);
+        cvs.translate(j*sq_size,i*sq_size);
+        c = grid.get(i).get(j);
+        cvs.noStroke();
+        cvs.strokeWeight(1);
+        draw_cell(c);    
+        cvs.pop();
+      }
     }
   }
   cvs.endDraw();
@@ -218,6 +267,9 @@ void draw(){
 }
 
 void init(){
+  sq_size = (int)min(width, height)/n_sq;
+  panel_l = (int)sq_size*n_sq;
+  if (refl){sq_size /=2;};
   cvs = createGraphics(width, height);
   dbg = createGraphics(width, height);
   
@@ -227,9 +279,9 @@ void init(){
   
   grid = new ArrayList<ArrayList<Cell>>();
  
-  for (int i = 0; i<height_grid;i++){
+  for (int i = 0; i<n_sq;i++){
     grid.add(new ArrayList<Cell>());
-    for (int j=0; j<width_grid;j++){
+    for (int j=0; j<n_sq;j++){
       grid.get(i).add(new Cell());
       if (i==0 || j==0){
         Cell c = grid.get(i).get(j);
@@ -240,6 +292,7 @@ void init(){
         color top = (int)random(lpal);
         color left = (int)random(lpal);
         int combi = unbinary(str(c.top_line)+str(c.left_line)+str(c.des_line)+str(c.asc_line));
+        combi = 0;
         ArrayList<Integer> cols = new ArrayList<Integer>();
         if (i==0 && j==0){
           cols = get_cols(combi, top, left);
@@ -265,8 +318,8 @@ void init(){
 }
 
 void compute_grid(){
-  for (int i = 1; i<height_grid;i++){
-    for (int j=1; j<width_grid;j++){
+  for (int i = 1; i<n_sq;i++){
+    for (int j=1; j<n_sq;j++){
       Cell t = grid.get(i-1).get(j);
       Cell tl = grid.get(i-1).get(j-1);
       Cell l = grid.get(i).get(j-1);
@@ -295,5 +348,8 @@ void keyPressed(){
   if (keyCode == 32){
     init();
     redraw();
+  }
+  if (key == 's'){
+    saveFrame("out-####.png");
   }
 }
