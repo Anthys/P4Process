@@ -5,23 +5,19 @@ class CurvNoise {
     float time = 0;
     int seed;
     PGraphics cvs;
-    PImage img = loadImage("aa.jpg");
-    
-    void settings(){
-      size(1000, 1000);
-    }
   
     class Agent {
 
         PVector pos; // position of the agent
         float angle; // current angle of the agent
+        float r = 1;
         color col;
         int mi;
         
         void update() {
             // modify position using current angle
-            pos.x += cos(angle);
-            pos.y += sin(angle);
+            pos.x += r*cos(angle);
+            pos.y += r*sin(angle);
         
             PVector scale_pos = new PVector(3,3);
             //scale_pos = new PVector(1,1);
@@ -47,14 +43,20 @@ class CurvNoise {
             float scale_angle = 3;
             float m = map( noise(v.x, v.y), 0, 1, -1, 1);
             m = atan2(v.x, v.y)*10;
-            m = lerp(m/cos(m),((angle)%TAU-PI),.7);
-            m = m/cos(m);
-            m = m/(cos(v.mag()))*.1;
-            angle += scale_angle* m;
+            //m = m/cos(m);
+            m = m*(cos(v.mag())*.1);
+            //angle += scale_angle* m;
+            float d = v.mag();
+            d = cos(d*.1);
+            d = d*.01;
+            float e = v.mag();
+            angle = (PI-atan2(v.x, v.y));
+            angle += angle*.1;
+            r = cos(e)*sin(angle);
         }
         
         void draw(PGraphics cvs){
-            cvs.stroke(col, 10);
+            cvs.stroke(col, 20);
             cvs.point(pos.x, pos.y);
         }
 
@@ -86,33 +88,24 @@ class CurvNoise {
         agents.clear();
         switch (val){
             case 0:
-              int i = 0;
-              while (i<numPoints){
+                for (int i=0; i<numPoints; i++) {
                     Agent a = new Agent();
                     float posx = random(0, width);
                     float posy = random(0,height);
-                    float px2 = map(posx, 0,width, 0, img.width);
-                    float py2 = map(posy, 0,height, 0, img.height);
-                    color cc = (img.get((int)px2, (int)py2));
-                    if (brightness(cc)<100){
-                      a.pos = new PVector(posx, posy);
-                      a.angle = random(TWO_PI);
-                      float fx = map(posx, 0,width, 0,1);
-                      float fy = map(posy, 0,height, 0,1);
-                      color col = rgradient(rcolor, fx, fy);
-                      col = (img.get((int)px2, (int)py2));
-                      col = lerpColor(col, color(255), .5);
-                      a.col = col;
-                      a.mi = i;
-                      agents.add(a);
-                      i += 1;
-                    }
+                    a.pos = new PVector(posx, posy);
+                    a.angle = random(TWO_PI);
+                    float fx = map(posx, 0,width, 0,1);
+                    float fy = map(posy, 0,height, 0,1);
+                    color col = rgradient(rcolor, fx, fy);
+                    a.col = col;
+                    a.mi = i;
+                    agents.add(a);
                 }
-              break;
+                break;
             case 1:
                 float radius = 300;
                 float fract = (1+sqrt(5))/2;
-                for (i=0; i<numPoints; i++) {
+                for (int i=0; i<numPoints; i++) {
                     Agent a = new Agent();
                     float dst = radius*pow(i/(numPoints-1.), .5);
                     float angle = 2*PI*fract*i;
@@ -164,6 +157,7 @@ class CurvNoise {
 
     void draw() {
         cvs.beginDraw();
+        cvs.background(cback, 10);
         for (Agent a : agents) {
             a.draw(cvs);
         }

@@ -71,7 +71,7 @@ class CurvNoise {
         cvs.beginDraw();
         cvs.background(cback);
         cvs.stroke(20, 10);
-        cvs.strokeWeight(2);
+        cvs.strokeWeight(.6);
         cvs.endDraw();
         
         // initialize in random positions

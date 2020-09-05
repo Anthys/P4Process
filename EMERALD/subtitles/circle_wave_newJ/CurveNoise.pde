@@ -10,13 +10,14 @@ class CurvNoise {
 
         PVector pos; // position of the agent
         float angle; // current angle of the agent
+        float r = 1;
         color col;
         int mi;
         
         void update() {
             // modify position using current angle
-            pos.x += cos(angle);
-            pos.y += sin(angle);
+            pos.x += r*cos(angle);
+            pos.y += r*sin(angle);
         
             PVector scale_pos = new PVector(3,3);
             //scale_pos = new PVector(1,1);
@@ -42,11 +43,15 @@ class CurvNoise {
             float scale_angle = 3;
             float m = map( noise(v.x, v.y), 0, 1, -1, 1);
             m = atan2(v.x, v.y)*10;
-            m = lerp(m/cos(m),((angle)%TAU-PI),.7);
-            m = m/cos(m);
-            m = m/(cos(v.mag()))*.1;
-            m=1;
-            angle += scale_angle* m;
+            //m = m/cos(m);
+            m = m*(cos(v.mag())*.1);
+            //angle += scale_angle* m;
+            float d = v.mag();
+            d = cos(d*.1);
+            d = d*.01;
+            float e = v.mag();
+            angle = (PI-atan2(v.x, v.y));
+            r = cos(e)*angle;
         }
         
         void draw(PGraphics cvs){
@@ -151,6 +156,7 @@ class CurvNoise {
 
     void draw() {
         cvs.beginDraw();
+        cvs.background(cback, 10);
         for (Agent a : agents) {
             a.draw(cvs);
         }

@@ -42,10 +42,13 @@ class CurvNoise {
             float scale_angle = 3;
             float m = map( noise(v.x, v.y), 0, 1, -1, 1);
             m = atan2(v.x, v.y)*10;
-            m = m/(angle)%TAU-PI;
-            m = m/cos(m);
-            m = m/(cos(v.mag()))*.1;
+            //m = m/cos(m);
+            m = m*(cos(v.mag())*.1);
             angle += scale_angle* m;
+            float d = v.mag();
+            d = cos(d*.1);
+            d = d*TAU;
+            angle = d;
         }
         
         void draw(PGraphics cvs){
