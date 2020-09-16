@@ -49,7 +49,7 @@ class PosNoise {
             d = p.mag()<3;
             n = pow(red(cimg)*abs(cos(green(cimg))), .1);
             n = abs(n*sin(blue(cimg)));//*noise(p.x,p.y);
-            float a1=2/pow(n, 1);
+            float a1=1/pow(n, 1)/cos(p.mag());
             float a2 = n;
             float val = (p.mag())/6;
             val = pow(val, .5);

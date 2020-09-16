@@ -46,15 +46,15 @@ class PosNoise {
             n = noise(p.x, p.y)*100;
             n=p.x*p.y;///atan2(p.x, p.y);
             boolean d = (p.x*p.x+p.y*p.y)<=6;
-            d = p.mag()<3;
+            d = p.mag()+sin(p.x)<3;
             n = pow(red(cimg)*abs(cos(green(cimg))), .1);
             n = abs(n*sin(blue(cimg)));//*noise(p.x,p.y);
-            float a1=2/pow(n, 1);
+            float a1=n*5*cos(p.x)*p.y;
+            a1 = 1/n/cos(n*sin(p.mag()));
             float a2 = n;
             float val = (p.mag())/6;
             val = pow(val, .5);
             float a3 = constrain(val, 0,1);
-            a3 = a3;
             n = lerp(a1,a2,a3);
             //n = self_i;
             v = variation1t2.cardiod(n);
