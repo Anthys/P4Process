@@ -11,6 +11,7 @@ float x1,x2,y1,y2;
 float A,B,C,D;
 float t;
 int cstep;
+int max_int=1;
 
 VideoExport vid;
 boolean video;
@@ -20,6 +21,7 @@ int[][] back;
 PImage bcc;
 
 void setup(){
+  frameRate(60);
   noiseSeed(0);
   size(1000,1000, P2D);
   cstep = 0;
@@ -63,27 +65,29 @@ void draw_1(){
   float e = .01;
   
   for (int j=0;j<1;j++){
-   init_part();
+   //init_part();
   for (int i=0;i<10;i++)
   for (PVector p:particles){
     stroke(0, 100);
     //a = c = sin(p.x);
     //b = d = 1.;
-    float x = p.x+(noise(noise(p.x, p.y)*2-1, .5)*2-1)*.5;
+    float x = p.x;//+(noise(noise(p.x, p.y)*2-1, .5)*2-1)*.5;
     float y = p.y;
     float xx = sin(a*y)-cos(b*x);
     float yy = sin(c*x)-cos(d*y);
     x = xx;//lerp(x,xx,e) ;
     y = yy;//lerp(y,yy, e);
     float nn = .5;
-    //x += (noise(xx,yy)*2-1)*nn;
-    //y += (noise(xx+20,yy+20)*2-1)*nn;
+    x += .5;//(noise(xx,yy)*2-1)*nn;
+    y += .5;//(noise(xx+20,yy+20)*2-1)*nn;
     p.x = x;
     p.y = y;
-    if (i>5){
+    if (i>2){
     xx = map(x, x1+2, x2-2, 0, width);
     yy = map(y, y1+2, y2-2, 0, height);
     back[int(xx)][int(yy)] += 1;
+    max_int = max(back[int(xx)][int(yy)], max_int);
+    point(xx, yy);
     //bcc.set(int(xx), int(yy), bcc.get(int(xx), int(yy))+1);
     }
     
@@ -105,21 +109,10 @@ void ini_ar(){
 }
 
 void draw_2(){
-  int mxx = 0;
-  int mnn = 0;
-  for (int i=0;i<width;i++)
-  for (int j=0;j<height;j++){
-    if (back[i][j] > mxx){
-      mxx = back[i][j];
-    }
-    if (back[i][j] < mnn){
-      mnn = back[i][j];
-    }
-  }
   loadPixels();
   for (int i=0;i<width;i++)
   for (int j=0;j<height;j++){
-    float val = map(float(back[i][j]), mnn,mxx,0,1);
+    float val = map(float(back[i][j]), 0 ,max_int,0,1);
     val = 1-val;
     val = pow(val,40);
     //val = exp(val*100.);
@@ -180,7 +173,7 @@ void init(){
 
 void init_part(){
   particles.clear();
-  float n = 1000;
+  float n = 10000;
   //background(200);
   for (int i = 0; i < n; i++){
     particles.add(new PVector(random(x1,x2) ,random(y1,y2)));

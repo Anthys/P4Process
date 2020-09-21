@@ -69,15 +69,15 @@ void draw_1(){
     stroke(0, 100);
     //a = c = sin(p.x);
     //b = d = 1.;
-    float x = p.x+(noise(noise(p.x, p.y)*2-1, .5)*2-1)*.5;
+    float x = p.x;//+(noise(noise(p.x, p.y)*2-1, .5)*2-1)*.5;
     float y = p.y;
     float xx = sin(a*y)-cos(b*x);
     float yy = sin(c*x)-cos(d*y);
     x = xx;//lerp(x,xx,e) ;
     y = yy;//lerp(y,yy, e);
     float nn = .5;
-    //x += (noise(xx,yy)*2-1)*nn;
-    //y += (noise(xx+20,yy+20)*2-1)*nn;
+    x += (noise(xx,yy)*2-1)*nn;
+    y += (noise(xx+20,yy+20)*2-1)*nn;
     p.x = x;
     p.y = y;
     if (i>5){
