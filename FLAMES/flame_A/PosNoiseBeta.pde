@@ -41,7 +41,7 @@ class PosNoiseB {
               //float ny = random(-ar,ar);
               //pt = new PVector(nx, ny);
                pt = PVector.mult(pt, .25);
-             pt.add(new PVector(noise(p.x, p.y), noise(p.x, p.y)));
+             //pt.add(new PVector(noise(p.x, p.y), noise(p.x, p.y)));
             }else if (ran<1){
              pt = PVector.add(pt, new PVector(0.5,0.5));
              pt = PVector.mult(pt, .9);
