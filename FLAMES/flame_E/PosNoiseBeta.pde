@@ -1,12 +1,12 @@
 // Template based on GenerateMe's one
 
-
+PImage[] imgs;
 float mnoise(float a){
   return noise(a)*2-1;
 }
 
 PVector pnoise(PVector a){
- return new PVector(mnoise(a.x/a.y), mnoise((a.y*5))); 
+ return new PVector(mnoise(a.x+a.y), mnoise((a.x*a.y))); 
 }
 
 class Cam{
@@ -59,21 +59,37 @@ class PosNoiseB {
             PVector p = new PVector(xx,yy);
             
             float ran = random(1.5);
+            PImage img = imgs[0];
             if (ran<.1){
+              img = imgs[0];
+            }else if (ran<.9){
+              img = imgs[1];
+             pt.rotate(PI/3);
+            }else if (ran<1.1){
+              img = imgs[2];
+            }
+             
+            int ix = (int)map(xx, -1,1, 0, img.width);
+            int iy = (int)map(yy, -1,1, 0, img.height);
+            color col = img.get(ix, iy);
+            float supra = red(col)/255;
+            supra = supra*2-1;
+            
+            if (ran<10){
               //float ar = .25;
               //float nx = random(-ar,ar);
               //float ny = random(-ar,ar);
               //pt = new PVector(nx, ny);
                pt.add(pnoise(pt).mult(1));
-               pt = PVector.mult(pt, .45);
+               pt = PVector.mult(pt, supra);
             }else if (ran<.9){
-             pt = PVector.add(pt, new PVector(0.3,-.5));
+             pt = PVector.add(pt, new PVector(0.3,supra));
              pt = PVector.mult(pt, .9);
              pt.rotate(PI/3);
             }else if (ran<1.1){
              pt = PVector.add(pt, new PVector(.3,0.5));
              pt = PVector.mult(pt, .2);
-             pt.rotate(-PI/3);
+             pt.rotate(supra*PI);
             }
             
               
@@ -90,7 +106,7 @@ class PosNoiseB {
         }
         
         void draw(PGraphics cvs){
-          int symms = 3;
+          int symms = 1;
           for (int i =0; i<symms;i++){
             PVector newpt = pt.copy().rotate(TAU/symms*i);
             float xx = map(newpt.x*cam.zoom-cam.pos.x, -map_l, map_l, -1, 1);
@@ -114,6 +130,10 @@ class PosNoiseB {
     }
 
     void init(int seed){
+        PImage img1 = loadImage("a.jpg");
+        PImage img2 = loadImage("b.jpg");
+        PImage img3 = loadImage("c.jpg");
+        imgs = new PImage[]{img1, img2, img3};
         cam = new Cam(new PVector(0,0), 0, 1);
         cam = new Cam(new PVector(.14, 0), 2.3, 2.5);
         noiseSeed(seed);
