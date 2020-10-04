@@ -124,6 +124,10 @@ class PosNoiseB {
                   pt.mult(v.scale);
                   pt.rotate(v.angle);
                   col = (varias.get(i).col+col)/2;
+                  if (i==0){
+                    pt.x = sin(pt.x);
+                    pt.y = sin(pt.y);
+                  }
                   if (n_iterations>20){
                   this.store_dt(i);
                   }
@@ -148,8 +152,7 @@ class PosNoiseB {
         }
         
         void draw(PGraphics cvs){
-          for (int i =0; i<symms;i++){
-            PVector newpt = pt.copy().rotate(TAU/symms*i);
+            PVector newpt = pt.copy();
             float xx = map(newpt.x*cam.zoom-cam.pos.x, -map_l, map_l, -1, 1);
             float yy = map(newpt.y*cam.zoom-cam.pos.y, -map_l, map_l, -1, 1);
             float tx = cos(cam.angle)*xx+sin(cam.angle)*yy;
@@ -160,12 +163,10 @@ class PosNoiseB {
             
             cvs.stroke(#DE0909, 50);
             cvs.point(xx, yy); //draw
-        }
       }
       void store_dt(int vari){
           int mycol = color_from_gradient(col);
-          for (int i =0; i<symms;i++){
-            PVector newpt = pt.copy().rotate(TAU/symms*i);
+            PVector newpt = pt.copy();
             float xx = map(newpt.x*cam.zoom-cam.pos.x, -map_l, map_l, -1, 1);
             float yy = map(newpt.y*cam.zoom-cam.pos.y, -map_l, map_l, -1, 1);
             float tx = cos(cam.angle)*xx+sin(cam.angle)*yy;
@@ -181,7 +182,6 @@ class PosNoiseB {
               cvs_colors[1][x][y] += blue(mycol)/255;
               cvs_colors[2][x][y] += green(mycol)/255;
             }
-        }
       }
 
     }
@@ -198,12 +198,29 @@ class PosNoiseB {
     void init(int seed){
         gradient = loadImage("michel.PNG");
         varias = new ArrayList<Variation>();
-        Variation v1 = new Variation(new PVector(-1, -.5), 0, .8, .5, .5);
+        Variation v1 = new Variation(new PVector(-1, -.5), 0, .8, 1, .5);
         Variation v2 = new Variation(new PVector(0.5,0.5), PI/4, .6, .5,1);
         //Variation v3 = new Variation(new PVector(.3,0.5), -PI/3, .2, .2,.9);
         varias.add(v1);
         varias.add(v2);
         //varias.add(v3);
+        
+        for (int i=0;i<varias.size(); i++){
+          
+          sum_proba += varias.get(i).weight;
+          
+        }
+        
+        for (int i = 0; i<symms;i ++){
+          Variation vs = new Variation(new PVector(0,0), TAU/symms*i,.5,sum_proba,.5);
+          varias.add(vs);
+        }
+        sum_proba = 0;
+        for (int i=0;i<varias.size(); i++){
+          
+          sum_proba += varias.get(i).weight;
+          
+        }
         final_cvs = createGraphics(width, height);
         
         buffer = new int[width][height];
@@ -215,11 +232,6 @@ class PosNoiseB {
           cvs_colors[i][j][k] = 0.;
         }
         
-        for (int i=0;i<varias.size(); i++){
-          
-          sum_proba += varias.get(i).weight;
-          
-        }
       
       
       
