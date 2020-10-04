@@ -246,7 +246,13 @@ class PosNoiseB {
         cvs.noFill();
         cvs.background(cback);
         cvs.endDraw();
+        
+        reset_agents();
 
+        
+    }
+    
+    void reset_agents(){
         agents.clear();
 
         float ninc = .07;
@@ -273,6 +279,11 @@ class PosNoiseB {
           a.update();
         }
         n_iterations += 1;
+        if (n_iterations >40){
+          reset_agents();
+          n_iterations = 0;
+          println("r");
+        }
       }
       if (mousePressed){
       if (mouseButton==LEFT){
@@ -369,6 +380,9 @@ class PosNoiseB {
           continue;
         }
         float weight = log(buffer[i][j])/buffer[i][j];
+        if (buffer[i][j]<.05*m_hits){
+          weight = weight;
+        }
         float gamma = 1/2.2;
         r = pow(cvs_colors[0][i][j]*weight, gamma);
         g = pow(cvs_colors[1][i][j]*weight, gamma);
