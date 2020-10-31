@@ -125,13 +125,13 @@ class PosNoiseB {
                   pt.rotate(v.angle);
                   col = (varias.get(i).col+col)/2;
                   if (i==0){
-                    pt.x += mnoise(pt.x)*.5;
-                    pt.y += mnoise(pt.y)*.5;
-                    //pt.x = sin(pt.x);
-                    pt = variations2t2.spherical(pt);
+                    //pt.x += mnoise(pt.x)*.3;
+                    pt.x = sin(pt.x);
+                    pt.y = sin(pt.y);
                   }
                   if (i==1){
-                    pt = variations2t2.polar(pt);
+                    //pt.y += mnoise(pt.x)*1;
+                    pt = variations2t2.spherical(pt);
                   }
                   if (n_iterations>20){
                   this.store_dt(i);
@@ -167,8 +167,8 @@ class PosNoiseB {
             xx = map(xx, -1, 1, 0, width);
             yy = map(yy, -1, 1, 0, height);
             
-            //cvs.stroke(#DE0909, 50);
-            //cvs.point(xx, yy); //draw
+            cvs.stroke(#DE0909, 50);
+            cvs.point(xx, yy); //draw
           }
       }
       void store_dt(int vari){
@@ -205,10 +205,10 @@ class PosNoiseB {
     }
 
     void init(int seed){
-        gradient = loadImage("michel.png");
+        gradient = loadImage("michel.PNG");
         varias = new ArrayList<Variation>();
         Variation v1 = new Variation(new PVector(1, .1), 2*PI/3-PI/12, .8, 1, .5);
-        Variation v2 = new Variation(new PVector(0.5,0.5), PI/4, .6, .3,1);
+        Variation v2 = new Variation(new PVector(0.5,0.5), PI/4, .6, .5,1);
         Variation v3 = new Variation(new PVector(.3,0.5), 2*PI/3, .2, .2,0);
         varias.add(v1);
         varias.add(v2);
@@ -279,16 +279,10 @@ class PosNoiseB {
           a.update();
         }
         n_iterations += 1;
-        println(n_iterations);
-        if (n_iterations % 50 == 0){
-          render();
-          image(final_cvs, 0,0);
-      };
-        if (n_iterations >= 500){
-          render();
-          image(final_cvs, 0,0);
-          saveFrame("out_####.png");
-          state = 1;
+        if (n_iterations >40){
+          reset_agents();
+          n_iterations = 0;
+          println("r");
         }
       }
       if (mousePressed && false){
@@ -310,7 +304,7 @@ class PosNoiseB {
           a.draw(cvs);
         }
         cvs.endDraw();
-        //image(cvs, 0,0);
+        image(cvs, 0,0);
         
         Variation cvar = varias.get(0);
         float xx = map(cvar.pos.x, -2, 2, 0, width);
@@ -366,9 +360,7 @@ class PosNoiseB {
         
     }
     
-    
     void render(){
-      println(n_iterations);
       int[][] totalhits = new int[width][height];
       int m_hits=0;
       
@@ -387,36 +379,22 @@ class PosNoiseB {
         if (buffer[i][j] == 0){
           continue;
         }
-        float weight = log(float(buffer[i][j]))/log(float(m_hits));
+        float weight = log(float(buffer[i][j]))/float(buffer[i][j]);
+        //weight = log(buffer[i][j])/buffer[i][j];
+        weight = log(float(buffer[i][j]))/m_hits;
         float gamma = 1/2.2;
-        gamma = .5;
-        weight = pow(weight, gamma);
-        float cgamma = 2;
-        float cmix = .5;
+        //gamma = 1;
         r = pow(cvs_colors[0][i][j]*weight, gamma);
         g = pow(cvs_colors[1][i][j]*weight, gamma);
         b = pow(cvs_colors[2][i][j]*weight, gamma);
-        r = cvs_colors[0][i][j]/float(buffer[i][j]);
-        g = cvs_colors[1][i][j]/float(buffer[i][j]);
-        b = cvs_colors[2][i][j]/float(buffer[i][j]);
-        r = lerp(r, pow(r, cgamma), cmix);
-        g = lerp(g, pow(g, cgamma), cmix);
-        b = lerp(b, pow(b, cgamma), cmix);
-        //weight = pow(weight, 1/100);
         color c = color(r*255,g*255,b*255, weight*255);
-        c = color(weight*255);
-        c = color(r*255,g*255,b*255);
-        c = lerpColor(cback, c, weight);
         //final_cvs.set(i,j, color(r*255,g*255,b*255, weight*255));
-        //final_cvs.stroke(c);
-        //final_cvs.point(i,j);
-        final_cvs.set(i,j, c);
+        //weight = log(float(buffer[i][j]))/float(buffer[i][j]);
+        //final_cvs.stroke(color(weight*255, 0, 0));
+        final_cvs.stroke(c);
+        final_cvs.point(i,j);
       }
       final_cvs.endDraw();
-      
-      background(0);
-      print("done");
-        //state = 1;
       
     }
   
@@ -434,6 +412,9 @@ class PosNoiseB {
         }
         if (key == 'x'){
           render();
+          background(0);
+          print("done");
+            state = 1;
         }
         int[] cool_keys = new int[]{LEFT, RIGHT, UP, DOWN};
         for (int v:cool_keys){

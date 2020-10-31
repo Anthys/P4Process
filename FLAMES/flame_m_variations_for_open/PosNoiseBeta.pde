@@ -158,7 +158,8 @@ class PosNoiseB {
         
         void draw(PGraphics cvs){
           for (int i =0; i<symms;i++){
-            PVector newpt = pt.copy().rotate(TAU/symms*i);
+            PVector newpt = pt.copy();
+            newpt.rotate(TAU/symms*i);
             float xx = map(newpt.x*cam.zoom-cam.pos.x, -map_l, map_l, -1, 1);
             float yy = map(newpt.y*cam.zoom-cam.pos.y, -map_l, map_l, -1, 1);
             float tx = cos(cam.angle)*xx+sin(cam.angle)*yy;
@@ -174,7 +175,9 @@ class PosNoiseB {
       void store_dt(int vari){
           int mycol = color_from_gradient(col);
           for (int i =0; i<symms;i++){
-            PVector newpt = pt.copy().rotate(TAU/symms*i);
+            //print(i);
+            PVector newpt = new PVector(pt.x, pt.y);
+            newpt.rotate(TAU/symms*i);
             float xx = map(newpt.x*cam.zoom-cam.pos.x, -map_l, map_l, -1, 1);
             float yy = map(newpt.y*cam.zoom-cam.pos.y, -map_l, map_l, -1, 1);
             float tx = cos(cam.angle)*xx+sin(cam.angle)*yy;
