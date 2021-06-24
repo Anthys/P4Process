@@ -1,0 +1,3 @@
+- dégager les 800 fonctions firstnot...XY en quelques unes efficaces et pas cher
+- doubler certaines de ces fonctions avec leur équivalent random (la condition rand en + qui permet de continuer le tracé un peu, même si la condition initiale n'est plus vérifiée, ça fait des trainées stylées)
+- mettre en forme

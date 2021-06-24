@@ -3,7 +3,7 @@ import java.util.Collections;
 void setup(){
   size(1000, 1000);
   cvs = createImage(width, height, RGB);
-    cvs_orig = loadImage("picB.jpg");
+    cvs_orig = loadImage("picC.jpg");
   //colorMode(RGB, mx_color);
   strokeWeight(20);
 }

@@ -12,11 +12,11 @@
  
  */
 
-int mode = 1;
+int mode = 0;
 
 // image path is relative to sketch directory
 PImage img;
-String imgFileName = "picB";
+String imgFileName = "picD";
 String fileType = "jpg";
 
 int loops = 1;
