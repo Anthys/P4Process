@@ -18,7 +18,7 @@ int mode = 0;
 
 // image path is relative to sketch directory
 PImage img;
-String imgFileName = "ab";
+String imgFileName = "mono";
 String fileType = "jpg";
 
 int loops = 1;
@@ -484,7 +484,7 @@ int getNextDarkY(int x, int y) {
 int getFirstNotWhiteY(int x, int y) {
 
   if(y < img.height) {
-    while(get_col(img, x, y,noise_on_columns) > whiteValue) {
+    while(get_col(img, x, y,noise_on_columns) > whiteValue&& (random(1)<rand_chance_columns)) {
       y++;
       if(y >= img.height)
         return -1;
@@ -498,7 +498,7 @@ int getNextWhiteY(int x, int y) {
   y++;
   
   if(y < img.height) {
-    while(get_col(img, x, y,noise_on_columns) < whiteValue) {
+    while(get_col(img, x, y,noise_on_columns) < whiteValue|| (random(1)<rand_chance_columns)) {
       y++;
       if(y >= img.height) 
         return img.height-1;
