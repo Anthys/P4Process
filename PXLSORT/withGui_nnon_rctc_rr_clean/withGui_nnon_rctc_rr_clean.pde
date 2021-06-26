@@ -20,7 +20,7 @@ boolean gui_shown = true;
 
 PImage img;
 PGraphics cvs;
-String imgFileName = "g.jpg";
+String imgFileName = "b.jpg";
 
 int mode = 0;
 
