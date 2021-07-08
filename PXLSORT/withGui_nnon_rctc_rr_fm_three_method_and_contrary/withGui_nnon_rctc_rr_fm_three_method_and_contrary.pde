@@ -1,7 +1,7 @@
 import controlP5.*;
 
 /*
-
+  // NEEDS A PREVIEW OPTION THAT RENDERS A LOW RES IMAGE
  ASDF Pixel Sort
  Kim Asendorf | 2010 | kimasendorf.com
  
@@ -26,7 +26,7 @@ boolean gui_shown = true;
 
 PImage img;
 PGraphics cvs;
-String imgFileName = "a.jpg";
+String imgFileName = "b/b.jpg";
 
 int mode = 0;
 boolean contrary_mode = false;
@@ -301,9 +301,8 @@ void pixel_sort(PImage img){
   cvs.image(img, 0, 0, img.width, img.height);
   cvs.endDraw();
   
-  if (wh[0]>wh[1]){
-    ratio = float(width)/wh[0];}
-    else{ratio = float(height)/wh[1];};
+  ratio = float(width)/wh[0];
+  if (ratio*wh[1]>height)ratio = float(height)/wh[1];
   
   image(cvs, 0,0, ratio*wh[0], ratio*wh[1]);
   

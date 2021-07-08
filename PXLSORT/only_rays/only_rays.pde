@@ -22,7 +22,7 @@ void draw(){
 }
 void theloop(){
   int x,y;
-  i+=1;
+  i+=5;
   //for (int i=0; i<width*2+height*2; i++){
     x = i<width?i:i<width+height?width-1:i<width*2+height?width-(i-height-width):0;
     y = i<width?0:i<width+height?i-width:i<width*2+height?height-1:height-(i-2*width-height);
@@ -37,7 +37,7 @@ void theloop(){
     //sortRow(line_colors);
     draw_line(cvs,line_colors,  int(width/2), int(height/2), x, y);
     
-  if (i>width*2+height*2){cvs.filter(BLUR, 2); noLoop();}
+  if (i>width*2+height*2){ noLoop();}
     image(cvs, 0,0);
     //stroke(a);
     //point(x, y);
