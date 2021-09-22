@@ -394,6 +394,8 @@ class PosNoiseB {
         float gamma = 1/2.2;
         gamma = .5;
         weight = pow(weight, gamma);
+        weight = log(float(buffer[i][j]))/log(float(m_hits));
+        float w2 = 1./float(buffer[i][j]);
         float cgamma = 2;
         float cmix = .5;
         r = pow(cvs_colors[0][i][j]*weight, gamma);
@@ -405,11 +407,14 @@ class PosNoiseB {
         r = lerp(r, pow(r, cgamma), cmix);
         g = lerp(g, pow(g, cgamma), cmix);
         b = lerp(b, pow(b, cgamma), cmix);
+        r = cvs_colors[0][i][j]*w2;
+        g = cvs_colors[1][i][j]*w2;
+        b = cvs_colors[2][i][j]*w2;
         //weight = pow(weight, 1/100);
         color c = color(r*255,g*255,b*255, weight*255);
-        c = color(weight*255);
-        c = color(r*255,g*255,b*255);
-        c = lerpColor(cback, c, weight);
+        //c = color(weight*255);
+        //c = color(r*255,g*255,b*255);
+        //c = lerpColor(cback, c, weight);
         //final_cvs.set(i,j, color(r*255,g*255,b*255, weight*255));
         //final_cvs.stroke(c);
         //final_cvs.point(i,j);

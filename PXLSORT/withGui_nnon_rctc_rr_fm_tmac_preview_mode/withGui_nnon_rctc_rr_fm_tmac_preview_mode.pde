@@ -28,7 +28,7 @@ PImage img_orig;
 PImage img_preview;
 PGraphics cvs;
 PGraphics cvs_preview;
-String imgFileName = "d/1.jpg";
+String imgFileName = "e/b.JPG";
 
 int mode = 0;
 boolean contrary_mode = false;
@@ -58,6 +58,8 @@ boolean noise_on_rows = false;
 boolean noise_on_columns = false;
 float rand_chance_columns = .9;
 float rand_chance_rows = .9;
+float rand_chance_columns_start = .9; // the sorting process can be easier to trigger (will trigger on pixels that do not comply with the requierements)
+float rand_chance_columns_end = .9; // the sorting process will last longer (will continue the path even if the pixels do not comply)
 
 //size of the original picture, before rotation
 int[] wh;
@@ -84,6 +86,7 @@ void setup() {
   cp5.addSlider("sliderNoiseScale", 0, 200, 100, 100, 260+100*2, 100*2, 14*3).setId(3);
   cp5.addSlider("sliderBWValue", 0,16000000, 11000000, 100, 260+100*3, 100*2, 14*3).setId(4);
   cp5.addSlider("sliderBrightSaturValue", 0,255, 60, 100, 260+100*5, 100*2, 14*3).setId(6);
+  //cp5.addSlider("sliderRandChanceCol_s", 0,1, .9, 100, 260+100*6-50, 100*2, 14*3).setId(10);
   cp5.addSlider("sliderRandChanceCol", 0,1, .9, 100, 260+100*6, 100*2, 14*3).setId(7);
   cp5.addSlider("sliderAngleRays", 0,TAU, PI/4, 100, 260+100*6+50, 100*2, 14*3).setId(8);
   cp5.addSlider("sliderdistcolorValue", 0,600, 300, 100+200+50, 260+100*6+50, 100*2, 14*3).setId(9);
@@ -148,7 +151,7 @@ void setup() {
 }
 
 void draw() {
-  if (tim==0)
+  //if (tim==0)
     //pixel_sort(img, cvs);
   tim += 1.;
   PGraphics c_cvs = preview_mode?cvs_preview:cvs;

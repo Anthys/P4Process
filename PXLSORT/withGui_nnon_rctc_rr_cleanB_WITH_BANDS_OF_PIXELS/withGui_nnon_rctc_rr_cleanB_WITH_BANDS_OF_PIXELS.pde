@@ -19,7 +19,7 @@ RadioButton r1;
 
 PImage img;
 PGraphics cvs;
-String imgFileName = "alex.jpg";
+String imgFileName = "picC.jpg";
 
 int mode = 0;
 
