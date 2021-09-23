@@ -1,8 +1,8 @@
 class Particle{
-  float seek_dist = 10;
-  float seek_angle = PI/6;
-  float move_dist = .5;
-  float move_angle = PI/12/2;
+  float seek_dist = 20;
+  float seek_angle = PI/3;
+  float move_dist = .4;
+  float move_angle = PI/12;
   float angle = 0;
   PVector pos;
   

@@ -8,17 +8,14 @@ void setup(){
   
   int si = 1000;
   particles = new Particle[si];
-  for (int i=0;i<si/2;i++){
-    int x = (int)random(0, width);
-    int y = (int)random(0, height);
-    float a = random(0, TAU);
+  float Rmax = 200;
+  for (int i=0;i<si;i++){
+    float r = random(0, Rmax);
+    float theta = random(0, TAU*2);
+    float x = r*cos(theta)+width/2;
+    float y = r*sin(theta)+height/2;
+    float a = theta+PI;
     particles[i] = new Particle(x, y,a);
-  }
-  for (int i=si/2;i<si;i++){
-    int x = (int)random(0, width);
-    int y = (int)random(0, height);
-    float a = random(0, TAU);
-    particles[i] = new Particle2(x, y,a);
   }
   img = new PImage(500, 500);
 }
@@ -26,6 +23,7 @@ void setup(){
 int t = 0;
 
 void draw(){
+  for(int j = 0;j<5;j++){
   t++;
   for(int i =0;i<particles.length;i++){
     Particle part = particles[i];
@@ -41,6 +39,8 @@ void draw(){
     part.deposit(img);
   }
   if (t%8==0){
-    image(img,0,0);img.filter(BLUR, 1);
+    img.filter(BLUR, 1);
   }
+  }
+    image(img,0,0);
 }
