@@ -4,3 +4,5 @@
 *.jpg
 *.mov
 *.tif
+!/imgReadme/*.jpg
+!/imgReadme/*.png
