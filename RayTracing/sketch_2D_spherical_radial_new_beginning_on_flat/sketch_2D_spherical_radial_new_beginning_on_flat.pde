@@ -14,10 +14,10 @@ sphVec vos = new sphVec(0,0); // Shift of the sphere
 int u_time = 0;
 
 void draw(){
-  translate(width/2, height/2);
+  translate(width/2, height/2); // Center the scene
   u_time += 1;
-  pos.add(vos);
-  vos.mult(.9);
+  pos.add(vos); // Add the shift of the sphere
+  vos.mult(.9); // Decrease the shifting, makes the smooth effect
   background(204);
   rayTrace(pos);
 }
@@ -26,19 +26,35 @@ float sphdist(PVector a, PVector b){
   return acos(a.dot(b));
 }
 
+float sdAllSph(sphVec p){
+  
+  //sphVec posAA = new sphVec(PI/2,PI/2);
+  sphVec posAA = new sphVec(0,0);
+  sphVec pos = p.copy();
+  
+  float radius = .5;
+  return pos.distTo(posAA)-radius;
+}
+
 float sdAll(PVector p){
   
-  sphVec posAA = new sphVec(PI/2,PI/2);
-  //PVector posA = new PVector(0,0,300);
-  PVector posA = sphVec.sph2cart(posAA);
-  posA.mult(1/posA.mag());
+  sphVec posA1 = new sphVec(PI/2,PI/2);
+  sphVec posA2 = new sphVec(0,0);
+  
+  PVector pos1 = sphVec.sph2cart(posA1);
+  PVector pos2 = sphVec.sph2cart(posA2);
+  pos1.mult(1/pos1.mag());
+  pos2.mult(1/pos2.mag());
   
   PVector pos = p.copy();
   pos.mult(1/pos.mag());
   
   float radius = .5;
   //return TAU;
-  return sphdist(pos, posA)-radius;
+  float d1 = sphdist(pos, pos1)-radius;
+  float d2 = sphdist(pos, pos2)-radius;
+  //return TAU;
+  return min(d1, d2);
 }
 
 void rayTrace(sphVec p){
@@ -57,8 +73,6 @@ void rayTrace(sphVec p){
   float f = 60;
   stroke(200,200,0);
   strokeWeight(10);
-  //line(pos_cart.x,pos_cart.y,pos_cart.z,pos_cart.x+dir1.x*f, pos_cart.y+dir1.y*f, pos_cart.z+dir1.z*f);
-  //line(pos_cart.x,pos_cart.y,pos_cart.z,pos_cart.x+dir2.x*f, pos_cart.y+dir2.y*f, pos_cart.z+dir2.z*f);
   strokeWeight(1);
   
   for (int i = 0; i<nrays;i++){
@@ -89,33 +103,22 @@ void rayTrace(sphVec p){
     
     stroke(0,0,255);
     cumul_dist = min(cumul_dist, TAU);
-    float rmax  = 50*cumul_dist;
+    cumul_dist /= TAU;
+    float rmax  = r*cumul_dist;
     line(0, 0, cos(theta)*rmax, sin(theta)*rmax);
-    //line(pos_cart.x,pos_cart.y,pos_cart.z,pos_cart.x+dir.x*f, pos_cart.y+dir.y*f, pos_cart.z+dir.z*f);
     stroke(0);
+    
     
     strokeWeight(cumul_dist/TAU*5);
     
-    int n_segments = 10;
-    float frac_dist = cumul_dist/n_segments;
-    for (int k = 1; k<n_segments+1;k++){
-      float c_dist_prev = frac_dist*(k-1);
-      float c_dist = frac_dist*k;
-      PVector pini = PVector.add(PVector.mult(pos_cart, cos(c_dist_prev)), PVector.mult(dir, sin(c_dist_prev)));
-      PVector pfinal = PVector.add(PVector.mult(pos_cart, cos(c_dist)), PVector.mult(dir, sin(c_dist)));
-      //println(pos_cart, dir, pini, pfinal);
-      //println(c_phi_prev,c_phi, pini.x);
-      //line(pini.x,pini.y,pini.z,pfinal.x, pfinal.y, pfinal.z);
-      //point(pfinal.x, pfinal.y, pfinal.z);
-    }
     
   }
-  PVector posvec = sphVec.sph2cart(pos);
   strokeWeight(30);
   stroke(255, 0,0);
   point(0,0);
   stroke(0, 255,0);
-  //point(posvec.x, posvec.y, posvec.z);
+  float distTo0 = pos.mag()/PI*r;
+  //point(dir1.x*distTo0, dir1.y*distTo0);
   
 }
 
